@@ -1,17 +1,38 @@
 /**
- * Design System — Typography and Spacing
- * Extracted from Let's Get Fit for consistency
+ * Design System — Professional Typography System
+ * Consistent fonts, sizes, and weights throughout the app
  */
 
 export const typography = {
-  // Exact font sizes from Let's Get Fit
-  label: "text-[10px] font-semibold uppercase tracking-[0.18em]",
-  heading: "text-[15px] font-[family-name:var(--font-display)] font-semibold leading-tight text-white/90",
-  secondary: "text-[12.5px]",
+  // Labels and tags (10px, always uppercase, semibold)
+  label: "text-[10px] font-semibold uppercase tracking-[0.18em] text-white/60",
+  labelAccent: "text-[10px] font-semibold uppercase tracking-[0.18em]", // Color applied inline
+
+  // Headings (Display font - Instrument Serif)
+  h1: "font-[family-name:var(--font-display)] text-[28px] font-semibold leading-tight text-white/90",
+  h2: "font-[family-name:var(--font-display)] text-[20px] font-semibold leading-tight text-white/90",
+  h3: "font-[family-name:var(--font-display)] text-[15px] font-semibold leading-tight text-white/90",
+
+  // Body text (Geist Sans)
+  body: "text-[13px] font-normal leading-relaxed text-white/80",
+  bodyMedium: "text-[12.5px] font-medium leading-relaxed text-white/80",
+  bodySmall: "text-[11px] font-normal leading-normal text-white/65",
+
+  // Helper text
   helper: "text-[10.5px] leading-snug text-white/45",
-  tiny: "text-[9px] font-semibold",
-  number: "tnum text-2xl font-[family-name:var(--font-display)] font-bold",
-  unit: "text-xs font-medium text-white/40",
+  helperStrong: "text-[10.5px] font-medium leading-snug text-white/45",
+
+  // Numbers (Display font with tabular nums)
+  numberLarge: "tnum font-[family-name:var(--font-display)] text-[32px] font-bold leading-none",
+  numberMedium: "tnum font-[family-name:var(--font-display)] text-2xl font-bold leading-none",
+  numberSmall: "tnum font-[family-name:var(--font-display)] text-lg font-semibold leading-none",
+
+  // Buttons
+  button: "text-[12px] font-semibold",
+  buttonSmall: "text-[11px] font-semibold",
+
+  // Links
+  link: "text-[13px] font-medium underline-offset-2 hover:underline",
 };
 
 export const colors = {

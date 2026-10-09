@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 
 export default function Home() {
-  redirect("/today");
+  // Redirect to auth on first visit
+  redirect("/auth");
 }

@@ -10,15 +10,10 @@ import { formatPracticeDate, getCurrentPracticeDate } from "@/lib/dates";
 import { calculateDailyScore } from "@/lib/scoring";
 import type { PranayamaTechnique, MeditationType, MeditationSession } from "@/lib/types";
 
-// Mock data for demonstration (will be replaced with real data from Supabase)
-const mockUser = {
-  emoji: "🪷",
-  username: "Nimal",
-};
-
 export default function TodayPage() {
   const [practiceDate, setPracticeDate] = useState("");
   const [isLoaded, setIsLoaded] = useState(false);
+  const [user, setUser] = useState<{ username: string; emoji: string } | null>(null);
 
   // Mock state (will be replaced with server data)
   const [log, setLog] = useState({
@@ -40,6 +35,22 @@ export default function TodayPage() {
 
     // Load saved data from localStorage
     if (typeof window !== "undefined") {
+      // Check for authenticated user
+      const savedUser = localStorage.getItem("prabhashwara_user");
+      if (!savedUser) {
+        // Redirect to auth page if not logged in
+        window.location.href = "/auth";
+        return;
+      }
+
+      try {
+        setUser(JSON.parse(savedUser));
+      } catch (e) {
+        console.error("Failed to parse user:", e);
+        window.location.href = "/auth";
+        return;
+      }
+
       const savedLog = localStorage.getItem(`practice_log_${date}`);
       const savedSessions = localStorage.getItem(`meditation_sessions_${date}`);
 
@@ -119,7 +130,7 @@ export default function TodayPage() {
   };
 
   // Don't render until data is loaded
-  if (!isLoaded || !practiceDate) {
+  if (!isLoaded || !practiceDate || !user) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-white/45">Loading...</div>
@@ -130,8 +141,8 @@ export default function TodayPage() {
   return (
     <>
       <AppHeader
-        userName={mockUser.username}
-        userEmoji={mockUser.emoji}
+        userName={user.username}
+        userEmoji={user.emoji}
         memberSince="Oct 2024"
         score={score}
         currentDate="Today"
