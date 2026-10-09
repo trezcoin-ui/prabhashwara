@@ -10,7 +10,8 @@ import { calculateDailyScore } from "@/lib/scoring";
 import { getCurrentPracticeDate } from "@/lib/dates";
 import type { MeditationSession } from "@/lib/types";
 
-type Period = "today" | "yesterday" | "week" | "month" | "year";
+type Period = "day" | "week" | "month" | "year";
+type TimeFrame = "current" | "previous";
 
 interface AggregatedEntry {
   username: string;
@@ -21,31 +22,54 @@ interface AggregatedEntry {
   pranayamaCount: number;
 }
 
-function calculateAggregatedScores(period: Period): AggregatedEntry[] {
+function calculateAggregatedScores(period: Period, timeFrame: TimeFrame): AggregatedEntry[] {
   if (typeof window === "undefined") return [];
 
   const today = getCurrentPracticeDate();
   const parsedToday = parseISO(today);
   let startDate: Date;
-  let endDate = parsedToday;
+  let endDate: Date;
 
-  // Determine date range based on period
+  // Determine date range based on period and timeframe
   switch (period) {
-    case "today":
-      startDate = parsedToday;
-      break;
-    case "yesterday":
-      startDate = subDays(parsedToday, 1);
-      endDate = subDays(parsedToday, 1);
+    case "day":
+      if (timeFrame === "current") {
+        startDate = parsedToday;
+        endDate = parsedToday;
+      } else {
+        startDate = subDays(parsedToday, 1);
+        endDate = subDays(parsedToday, 1);
+      }
       break;
     case "week":
-      startDate = startOfWeek(parsedToday, { weekStartsOn: 1 }); // Monday
+      if (timeFrame === "current") {
+        startDate = startOfWeek(parsedToday, { weekStartsOn: 1 });
+        endDate = parsedToday;
+      } else {
+        const prevWeekEnd = subDays(startOfWeek(parsedToday, { weekStartsOn: 1 }), 1);
+        startDate = startOfWeek(prevWeekEnd, { weekStartsOn: 1 });
+        endDate = prevWeekEnd;
+      }
       break;
     case "month":
-      startDate = startOfMonth(parsedToday);
+      if (timeFrame === "current") {
+        startDate = startOfMonth(parsedToday);
+        endDate = parsedToday;
+      } else {
+        const prevMonthEnd = subDays(startOfMonth(parsedToday), 1);
+        startDate = startOfMonth(prevMonthEnd);
+        endDate = prevMonthEnd;
+      }
       break;
     case "year":
-      startDate = startOfYear(parsedToday);
+      if (timeFrame === "current") {
+        startDate = startOfYear(parsedToday);
+        endDate = parsedToday;
+      } else {
+        const prevYearEnd = subDays(startOfYear(parsedToday), 1);
+        startDate = startOfYear(prevYearEnd);
+        endDate = prevYearEnd;
+      }
       break;
   }
 
@@ -121,19 +145,24 @@ function calculateAggregatedScores(period: Period): AggregatedEntry[] {
 }
 
 export default function LeaderboardPage() {
-  const [period, setPeriod] = useState<Period>("today");
+  const [period, setPeriod] = useState<Period>("day");
+  const [timeFrame, setTimeFrame] = useState<TimeFrame>("current");
   const [leaderboard, setLeaderboard] = useState<AggregatedEntry[]>([]);
 
   useEffect(() => {
-    setLeaderboard(calculateAggregatedScores(period));
-  }, [period]);
+    setLeaderboard(calculateAggregatedScores(period, timeFrame));
+  }, [period, timeFrame]);
 
   const periods: { key: Period; label: string }[] = [
-    { key: "today", label: "today" },
-    { key: "yesterday", label: "yesterday" },
-    { key: "week", label: "week" },
-    { key: "month", label: "month" },
-    { key: "year", label: "year" },
+    { key: "day", label: "Today" },
+    { key: "week", label: "Week" },
+    { key: "month", label: "Month" },
+    { key: "year", label: "Year" },
+  ];
+
+  const timeFrames: { key: TimeFrame; label: string }[] = [
+    { key: "current", label: "Current" },
+    { key: "previous", label: "Previous" },
   ];
 
   return (
@@ -173,7 +202,8 @@ export default function LeaderboardPage() {
         </div>
 
         {/* Period Navigation */}
-        <div className="px-3 pb-2.5">
+        <div className="px-3 pb-2.5 space-y-2">
+          {/* Period Selection */}
           <div className="flex gap-1 overflow-x-auto no-scrollbar">
             {periods.map(({ key, label }) => {
               const isSelected = period === key;
@@ -182,7 +212,30 @@ export default function LeaderboardPage() {
                   key={key}
                   type="button"
                   onClick={() => setPeriod(key)}
-                  className={`shrink-0 rounded-lg px-2.5 py-1.5 transition-colors ${typography.bodyMedium} uppercase`}
+                  className={`shrink-0 rounded-lg px-2.5 py-1.5 transition-colors ${typography.bodyMedium}`}
+                  style={{
+                    background: isSelected ? "rgba(139, 123, 227, 0.2)" : "rgba(255,255,255,0.04)",
+                    color: isSelected ? "#8B7BE3" : "rgba(255,255,255,0.6)",
+                    border: isSelected ? "1px solid #8B7BE3" : "1px solid transparent",
+                  }}
+                  aria-pressed={isSelected}
+                >
+                  {label}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Timeframe Selection */}
+          <div className="flex gap-1">
+            {timeFrames.map(({ key, label }) => {
+              const isSelected = timeFrame === key;
+              return (
+                <button
+                  key={key}
+                  type="button"
+                  onClick={() => setTimeFrame(key)}
+                  className={`flex-1 rounded-lg px-2.5 py-1.5 transition-colors ${typography.bodyMedium}`}
                   style={{
                     background: isSelected ? "rgba(139, 123, 227, 0.2)" : "rgba(255,255,255,0.04)",
                     color: isSelected ? "#8B7BE3" : "rgba(255,255,255,0.6)",

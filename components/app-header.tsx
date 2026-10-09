@@ -35,26 +35,16 @@ export function AppHeader({
           <div className="flex items-start gap-2">
             <Link
               href="/leaderboard"
-              className="grid h-8 w-8 place-items-center rounded-lg text-white/60 hover:bg-white/5 transition-colors"
+              className="grid h-10 w-10 place-items-center rounded-lg text-white/60 hover:bg-white/5 transition-colors"
               aria-label="Leaderboard"
             >
-              <TrendingUp size={18} strokeWidth={2} />
+              <TrendingUp size={20} strokeWidth={2} />
             </Link>
-            <div className="flex items-center gap-2">
-              <img
-                src="/yoga-logo.svg"
-                alt="Prabhashwara"
-                className="h-7 w-7"
-              />
-              <div>
-                <h1 className={`text-white ${typography.h2} uppercase tracking-[0.12em]`}>
-                  prabhashwara
-                </h1>
-                <p className={typography.label} style={{ color: "#8B7BE3" }}>
-                  yoga tracker
-                </p>
-              </div>
-            </div>
+            <img
+              src="/yoga-logo.svg"
+              alt="Prabhashwara Yoga Tracker"
+              className="h-10 w-10"
+            />
           </div>
 
           {/* Right: User info + Progress icon */}

@@ -13,10 +13,10 @@ export default function ProgressPage() {
   const [period, setPeriod] = useState<Period>("week");
 
   const periods: { key: Period; label: string }[] = [
-    { key: "week", label: "week" },
-    { key: "month", label: "month" },
-    { key: "year", label: "year" },
-    { key: "all", label: "all time" },
+    { key: "week", label: "Week" },
+    { key: "month", label: "Month" },
+    { key: "year", label: "Year" },
+    { key: "all", label: "All time" },
   ];
 
   return (
@@ -65,7 +65,7 @@ export default function ProgressPage() {
                   key={key}
                   type="button"
                   onClick={() => setPeriod(key)}
-                  className={`shrink-0 rounded-lg px-2.5 py-1.5 transition-colors ${typography.bodyMedium} uppercase`}
+                  className={`shrink-0 rounded-lg px-2.5 py-1.5 transition-colors ${typography.bodyMedium}`}
                   style={{
                     background: isSelected ? "rgba(139, 123, 227, 0.2)" : "rgba(255,255,255,0.04)",
                     color: isSelected ? "#8B7BE3" : "rgba(255,255,255,0.6)",
