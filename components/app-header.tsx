@@ -44,9 +44,9 @@ export function AppHeader({
               <img
                 src="/yoga-logo.svg"
                 alt="Prabhashwara Yoga Tracker"
-                className="h-10 w-10"
+                className="h-12 w-12"
               />
-              <p className={typography.label} style={{ color: "#8B7BE3" }}>
+              <p className={`${typography.bodyMedium} font-semibold uppercase`} style={{ color: "#8B7BE3" }}>
                 yoga tracker
               </p>
             </div>
