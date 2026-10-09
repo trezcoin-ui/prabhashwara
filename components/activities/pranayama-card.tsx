@@ -72,7 +72,7 @@ export function PranayamaCard({
           >
             Pranayama · +{SCORES.PRANAYAMA_EACH} each
           </p>
-          <h2 className={`mt-1 ${typography.h3}`}>
+          <h2 className={`mt-1 ${typography.h3} uppercase`}>
             {progress}
           </h2>
         </div>
