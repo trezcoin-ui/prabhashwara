@@ -126,3 +126,13 @@ input[type="range"]::-moz-range-thumb {
   border: 3px solid #0B0F17;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
+
+/* Hide scrollbar while maintaining scrollability */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
