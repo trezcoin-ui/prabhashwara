@@ -24,8 +24,8 @@ export const typography = {
 
   // Numbers (Display font with tabular nums)
   numberLarge: "tnum font-[family-name:var(--font-display)] text-[32px] font-bold leading-none",
-  numberMedium: "tnum font-[family-name:var(--font-display)] text-[24px] font-bold leading-none",
-  numberSmall: "tnum font-[family-name:var(--font-display)] text-[20px] font-bold leading-none",
+  numberMedium: "tnum font-[family-name:var(--font-display)] text-[20px] font-bold leading-none",
+  numberSmall: "tnum font-[family-name:var(--font-display)] text-[18px] font-bold leading-none",
 
   // Buttons
   button: "text-[12px] font-semibold",

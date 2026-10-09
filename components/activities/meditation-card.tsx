@@ -93,7 +93,7 @@ export function MeditationCard({
             type="button"
             onClick={() => setType(m.id)}
             aria-pressed={type === m.id}
-            className={`rounded-lg py-2 transition-colors ${typography.button}`}
+            className={`rounded-lg py-2 transition-colors ${typography.bodyMedium}`}
             style={{
               background: type === m.id ? ACCENT : "transparent",
               color: type === m.id ? "#0B0F17" : "rgba(255,255,255,0.6)",
