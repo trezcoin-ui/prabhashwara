@@ -52,12 +52,12 @@ export function AppHeader({
 
           {/* Right: User info + Progress icon */}
           <div className="flex items-start gap-2">
-            <div className="text-right">
+            <Link href="/profile" className="text-right hover:opacity-80 transition-opacity">
               <div className="flex items-center gap-1.5 justify-end">
                 <span className={typography.h3}>{userEmoji}</span>
                 <span className={`${typography.bodyMedium} text-white/90`}>{userName}</span>
               </div>
-            </div>
+            </Link>
             <div className={typography.numberMedium} style={{ color: "#8B7BE3" }}>
               {score}
             </div>
