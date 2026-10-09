@@ -40,13 +40,20 @@ export function AppHeader({
             >
               <TrendingUp size={18} strokeWidth={2} />
             </Link>
-            <div>
-              <h1 className={`text-white ${typography.h2} uppercase tracking-[0.12em]`}>
-                prabhashwara
-              </h1>
-              <p className={typography.label} style={{ color: "#8B7BE3" }}>
-                yoga tracker
-              </p>
+            <div className="flex items-center gap-2">
+              <img
+                src="/yoga-logo.svg"
+                alt="Prabhashwara"
+                className="h-7 w-7"
+              />
+              <div>
+                <h1 className={`text-white ${typography.h2} uppercase tracking-[0.12em]`}>
+                  prabhashwara
+                </h1>
+                <p className={typography.label} style={{ color: "#8B7BE3" }}>
+                  yoga tracker
+                </p>
+              </div>
             </div>
           </div>
 

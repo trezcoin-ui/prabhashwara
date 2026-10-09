@@ -1,0 +1,29 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="yogaGradient" x1="16" y1="4" x2="16" y2="28" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#F59E0B"/>
+      <stop offset="100%" stop-color="#8B7BE3"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Head -->
+  <circle cx="16" cy="8" r="2.5" fill="url(#yogaGradient)"/>
+
+  <!-- Body and Arms (Tree Pose) -->
+  <path d="M 16 10.5 L 16 20 M 11 13 L 16 11 L 21 13 M 13 20 L 16 20 L 16 27"
+        stroke="url(#yogaGradient)"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        fill="none"/>
+
+  <!-- Leg bent in tree pose -->
+  <path d="M 16 20 L 19 24"
+        stroke="url(#yogaGradient)"
+        stroke-width="2"
+        stroke-linecap="round"
+        fill="none"/>
+
+  <!-- Standing foot -->
+  <ellipse cx="16" cy="27.5" rx="1.5" ry="0.8" fill="url(#yogaGradient)"/>
+</svg>
