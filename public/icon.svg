@@ -1,0 +1,27 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="512" height="512" rx="110" fill="#0B0F17"/>
+
+  <!-- Lotus icon -->
+  <g transform="translate(256, 256)">
+    <!-- Center petal -->
+    <ellipse cx="0" cy="0" rx="25" ry="60" fill="#8B7BE3" opacity="0.95"/>
+
+    <!-- Left petals -->
+    <ellipse cx="-35" cy="0" rx="22" ry="55" fill="#8B7BE3" opacity="0.8" transform="rotate(-25 -35 0)"/>
+    <ellipse cx="-60" cy="10" rx="20" ry="50" fill="#8B7BE3" opacity="0.6" transform="rotate(-45 -60 10)"/>
+
+    <!-- Right petals -->
+    <ellipse cx="35" cy="0" rx="22" ry="55" fill="#8B7BE3" opacity="0.8" transform="rotate(25 35 0)"/>
+    <ellipse cx="60" cy="10" rx="20" ry="50" fill="#8B7BE3" opacity="0.6" transform="rotate(45 60 10)"/>
+
+    <!-- Outer left petals -->
+    <ellipse cx="-75" cy="25" rx="18" ry="45" fill="#8B7BE3" opacity="0.4" transform="rotate(-60 -75 25)"/>
+
+    <!-- Outer right petals -->
+    <ellipse cx="75" cy="25" rx="18" ry="45" fill="#8B7BE3" opacity="0.4" transform="rotate(60 75 25)"/>
+
+    <!-- Base circle -->
+    <circle cx="0" cy="5" r="15" fill="#8B7BE3"/>
+  </g>
+</svg>
