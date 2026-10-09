@@ -23,10 +23,10 @@ interface PranayamaCardProps {
 }
 
 const techniques: { key: PranayamaTechnique; label: string }[] = [
-  { key: "kapalabhati", label: "Kapalabhati" },
-  { key: "bhastrika", label: "Bhastrika" },
-  { key: "nadi_shodhana", label: "Nadi Shodhana" },
-  { key: "bhramari", label: "Bhramari" },
+  { key: "kapalabhati", label: "kapalabhati" },
+  { key: "bhastrika", label: "bhastrika" },
+  { key: "nadi_shodhana", label: "nadi shodhana" },
+  { key: "bhramari", label: "bhramari" },
 ];
 
 export function PranayamaCard({
@@ -112,7 +112,7 @@ export function PranayamaCard({
       </div>
 
       <p className={`mt-2 ${typography.helper}`}>
-        Each technique earns {SCORES.PRANAYAMA_EACH} points. Practice them all for {SCORES.PRANAYAMA_EACH * 4} points total.
+        each technique earns {SCORES.PRANAYAMA_EACH} points. practice them all for {SCORES.PRANAYAMA_EACH * 4} points total.
       </p>
     </GlassCard>
   );

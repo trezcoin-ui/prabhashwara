@@ -61,16 +61,16 @@ export default function AuthPage() {
       <div className="w-full max-w-sm">
         {/* Logo */}
         <div className="text-center mb-8">
-          <h1 className={`${typography.h1} mb-2`}>Prabhashwara</h1>
+          <h1 className={`${typography.h1} mb-2 uppercase`}>prabhashwara</h1>
           <p className="text-[10px] uppercase tracking-wider" style={{ color: "#8B7BE3" }}>
-            Yoga Practice Tracker
+            yoga practice tracker
           </p>
         </div>
 
         <GlassCard accent="#8B7BE3" delay={0} className="p-6">
           <form onSubmit={handleSubmit} className="space-y-4">
-            <h2 className={typography.h3}>
-              {isSignup ? "Create Account" : "Welcome Back"}
+            <h2 className={`${typography.h3} uppercase`}>
+              {isSignup ? "create account" : "welcome back"}
             </h2>
 
             {/* Emoji Selector (signup only) */}
@@ -159,7 +159,7 @@ export default function AuthPage() {
               className={`w-full py-3 rounded-xl ${typography.button} transition-all active:scale-98 disabled:opacity-50`}
               style={{ background: "#8B7BE3", color: "#0B0F17" }}
             >
-              {loading ? "Please wait..." : isSignup ? "Create Account" : "Sign In"}
+              {loading ? "please wait..." : isSignup ? "create account" : "sign in"}
             </button>
 
             {/* Toggle Sign up / Sign in */}
@@ -173,13 +173,13 @@ export default function AuthPage() {
               }}
               className={`${typography.link} text-white/60 hover:text-white/90 w-full text-center block`}
             >
-              {isSignup ? "Already have an account? Sign in" : "Need an account? Sign up"}
+              {isSignup ? "already have an account? sign in" : "need an account? sign up"}
             </button>
           </form>
         </GlassCard>
 
         <p className={`${typography.helper} text-center mt-6`}>
-          Your data is private and secure
+          your data is private and secure
         </p>
       </div>
     </div>

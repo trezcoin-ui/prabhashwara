@@ -41,11 +41,11 @@ export function AppHeader({
               <TrendingUp size={18} strokeWidth={2} />
             </Link>
             <div>
-              <h1 className={`text-white ${typography.h3}`}>
-                Prabhashwara
+              <h1 className={`text-white ${typography.h3} uppercase`}>
+                prabhashwara
               </h1>
               <p className={typography.label} style={{ color: "#8B7BE3" }}>
-                Yoga Tracker
+                yoga tracker
               </p>
             </div>
           </div>
