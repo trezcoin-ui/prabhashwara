@@ -7,7 +7,11 @@ import { Home, LogOut, Edit2, Check, X } from "lucide-react";
 import { GlassCard } from "@/components/ui/glass-card";
 import { typography } from "@/lib/design-system";
 
-const EMOJIS = ["🪷", "🧘", "☮️", "🕉️", "🌸", "🌺", "🦋", "🌙", "⭐", "✨", "🌿", "🍃"];
+const EMOJIS = [
+  "🪷", "🧘", "☮️", "🕉️", "🌸", "🌺", "🦋", "🌙", "⭐", "✨", "🌿", "🍃",
+  "🌻", "🌼", "🌷", "🌱", "🍀", "🌾", "🐚", "🕊️", "🦢", "🐢", "🦎", "🐠",
+  "🌊", "💎", "🔮", "🎋", "🎍", "🪔", "🌈", "☀️", "🌅", "🌄", "⛰️", "🏔️"
+];
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -47,10 +51,12 @@ export default function ProfilePage() {
 
   const handleSaveUsername = () => {
     if (user && newUsername.trim()) {
-      const updated = { ...user, username: newUsername.toLowerCase().replace(/\s/g, "") };
+      const cleaned = newUsername.replace(/\s/g, "");
+      const formatted = cleaned.charAt(0).toUpperCase() + cleaned.slice(1).toLowerCase();
+      const updated = { ...user, username: formatted };
       localStorage.setItem("prabhashwara_user", JSON.stringify(updated));
       setUser(updated);
-      setNewUsername(updated.username);
+      setNewUsername(formatted);
       setIsEditingUsername(false);
       if ("vibrate" in navigator) {
         navigator.vibrate(10);
@@ -191,13 +197,13 @@ export default function ProfilePage() {
             )}
           </div>
           {isEditingEmoji && (
-            <div className="grid grid-cols-6 gap-1.5">
+            <div className="grid grid-cols-6 gap-1.5 max-h-48 overflow-y-auto">
               {EMOJIS.map((emoji) => (
                 <button
                   key={emoji}
                   type="button"
                   onClick={() => setNewEmoji(emoji)}
-                  className="text-2xl p-2 rounded-lg transition-all"
+                  className="text-xl p-1.5 rounded-lg transition-all"
                   style={{
                     background: newEmoji === emoji ? "rgba(139, 123, 227, 0.2)" : "rgba(255, 255, 255, 0.03)",
                     border: newEmoji === emoji ? "2px solid #8B7BE3" : "2px solid transparent",
@@ -249,8 +255,12 @@ export default function ProfilePage() {
             <input
               type="text"
               value={newUsername}
-              onChange={(e) => setNewUsername(e.target.value.toLowerCase().replace(/\s/g, ""))}
-              placeholder="nimal"
+              onChange={(e) => {
+                const input = e.target.value.replace(/\s/g, "");
+                const formatted = input.charAt(0).toUpperCase() + input.slice(1).toLowerCase();
+                setNewUsername(formatted);
+              }}
+              placeholder="Nimal"
               maxLength={20}
               className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/12 text-white/90 placeholder:text-white/30 focus:outline-none focus:border-[#8B7BE3] transition-colors text-[13px]"
             />

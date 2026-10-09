@@ -5,7 +5,11 @@ import { useRouter } from "next/navigation";
 import { GlassCard } from "@/components/ui/glass-card";
 import { typography } from "@/lib/design-system";
 
-const EMOJIS = ["🪷", "🧘", "☮️", "🕉️", "🌸", "🌺", "🦋", "🌙", "⭐", "✨", "🌿", "🍃"];
+const EMOJIS = [
+  "🪷", "🧘", "☮️", "🕉️", "🌸", "🌺", "🦋", "🌙", "⭐", "✨", "🌿", "🍃",
+  "🌻", "🌼", "🌷", "🌱", "🍀", "🌾", "🐚", "🕊️", "🦢", "🐢", "🦎", "🐠",
+  "🌊", "💎", "🔮", "🎋", "🎍", "🪔", "🌈", "☀️", "🌅", "🌄", "⛰️", "🏔️"
+];
 
 export default function AuthPage() {
   const router = useRouter();
@@ -79,13 +83,13 @@ export default function AuthPage() {
                 <label className={`${typography.label} block mb-2`}>
                   Choose Your Emoji
                 </label>
-                <div className="grid grid-cols-6 gap-2">
+                <div className="grid grid-cols-6 gap-1.5 max-h-48 overflow-y-auto">
                   {EMOJIS.map((e) => (
                     <button
                       key={e}
                       type="button"
                       onClick={() => setEmoji(e)}
-                      className="text-2xl p-2 rounded-lg transition-all"
+                      className="text-xl p-1.5 rounded-lg transition-all"
                       style={{
                         background: emoji === e ? "rgba(139, 123, 227, 0.2)" : "rgba(255, 255, 255, 0.03)",
                         border: emoji === e ? "2px solid #8B7BE3" : "2px solid transparent",
@@ -106,8 +110,12 @@ export default function AuthPage() {
               <input
                 type="text"
                 value={username}
-                onChange={(e) => setUsername(e.target.value.toLowerCase().replace(/\s/g, ""))}
-                placeholder="nimal"
+                onChange={(e) => {
+                  const input = e.target.value.replace(/\s/g, "");
+                  const formatted = input.charAt(0).toUpperCase() + input.slice(1).toLowerCase();
+                  setUsername(formatted);
+                }}
+                placeholder="Nimal"
                 maxLength={20}
                 className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/12 text-white/90 placeholder:text-white/30 focus:outline-none focus:border-[#8B7BE3] transition-colors text-[14px]"
               />

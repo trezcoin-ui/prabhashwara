@@ -3,102 +3,138 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Home, BarChart3, Trophy, Medal, Award } from "lucide-react";
+import { format, subDays, startOfWeek, startOfMonth, startOfYear, parseISO } from "date-fns";
 import { GlassCard } from "@/components/ui/glass-card";
 import { typography } from "@/lib/design-system";
-import type { LeaderboardEntry } from "@/lib/types";
+import { calculateDailyScore } from "@/lib/scoring";
+import { getCurrentPracticeDate } from "@/lib/dates";
+import type { MeditationSession } from "@/lib/types";
 
-// Mock data for development
-const MOCK_LEADERBOARD: LeaderboardEntry[] = [
-  {
-    user_id: "1",
-    username: "nimal",
-    emoji: "🪷",
-    score: 160,
-    priming: true,
-    surya_namaskaraya: true,
-    pranayama_techniques: ["kapalabhati", "bhastrika", "nadi_shodhana", "bhramari"],
-    meditation_sessions: [{ type: "anapanasati", minutes: 60 }],
-    earliest_completion: "2026-10-09T06:30:00Z",
-  },
-  {
-    user_id: "2",
-    username: "saman",
-    emoji: "🌸",
-    score: 140,
-    priming: true,
-    surya_namaskaraya: true,
-    pranayama_techniques: ["kapalabhati", "bhastrika", "nadi_shodhana"],
-    meditation_sessions: [{ type: "metta", minutes: 60 }],
-    earliest_completion: "2026-10-09T07:00:00Z",
-  },
-  {
-    user_id: "3",
-    username: "kumari",
-    emoji: "🦋",
-    score: 120,
-    priming: true,
-    surya_namaskaraya: true,
-    pranayama_techniques: ["kapalabhati", "bhastrika"],
-    meditation_sessions: [{ type: "anapanasati", minutes: 60 }],
-    earliest_completion: "2026-10-09T07:30:00Z",
-  },
-  {
-    user_id: "4",
-    username: "silva",
-    emoji: "🌙",
-    score: 100,
-    priming: false,
-    surya_namaskaraya: true,
-    pranayama_techniques: ["kapalabhati", "bhastrika", "nadi_shodhana", "bhramari"],
-    meditation_sessions: [{ type: "metta", minutes: 40 }],
-    earliest_completion: "2026-10-09T08:00:00Z",
-  },
-  {
-    user_id: "5",
-    username: "perera",
-    emoji: "☀️",
-    score: 80,
-    priming: true,
-    surya_namaskaraya: true,
-    pranayama_techniques: ["kapalabhati"],
-    meditation_sessions: [{ type: "anapanasati", minutes: 30 }],
-    earliest_completion: "2026-10-09T09:00:00Z",
-  },
-];
+type Period = "today" | "yesterday" | "week" | "month" | "year";
 
-function getDateLabel(date: Date): string {
-  const today = new Date();
-  const yesterday = new Date(today);
-  yesterday.setDate(yesterday.getDate() - 1);
-
-  if (date.toDateString() === today.toDateString()) {
-    return "today";
-  } else if (date.toDateString() === yesterday.toDateString()) {
-    return "yesterday";
-  } else {
-    return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
-  }
+interface AggregatedEntry {
+  username: string;
+  emoji: string;
+  totalScore: number;
+  practiceDays: number;
+  totalMeditationMinutes: number;
+  pranayamaCount: number;
 }
 
-function getLast7Days(): Date[] {
-  const days: Date[] = [];
-  for (let i = 0; i < 7; i++) {
-    const date = new Date();
-    date.setDate(date.getDate() - i);
-    days.push(date);
+function calculateAggregatedScores(period: Period): AggregatedEntry[] {
+  if (typeof window === "undefined") return [];
+
+  const today = getCurrentPracticeDate();
+  const parsedToday = parseISO(today);
+  let startDate: Date;
+  let endDate = parsedToday;
+
+  // Determine date range based on period
+  switch (period) {
+    case "today":
+      startDate = parsedToday;
+      break;
+    case "yesterday":
+      startDate = subDays(parsedToday, 1);
+      endDate = subDays(parsedToday, 1);
+      break;
+    case "week":
+      startDate = startOfWeek(parsedToday, { weekStartsOn: 1 }); // Monday
+      break;
+    case "month":
+      startDate = startOfMonth(parsedToday);
+      break;
+    case "year":
+      startDate = startOfYear(parsedToday);
+      break;
   }
-  return days;
+
+  // Get all user data
+  const userMap = new Map<string, AggregatedEntry>();
+
+  // Iterate through all possible days in the range
+  const dayCount = Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+
+  for (let i = 0; i < dayCount; i++) {
+    const checkDate = format(subDays(endDate, dayCount - 1 - i), "yyyy-MM-dd");
+
+    // Get all stored practice logs for this date
+    const keys = Object.keys(localStorage);
+    const logKeys = keys.filter(key => key.startsWith(`practice_log_${checkDate}`));
+    const sessionKeys = keys.filter(key => key.startsWith(`meditation_sessions_${checkDate}`));
+
+    // For this simple localStorage implementation, we only have one user
+    const userDataStr = localStorage.getItem("prabhashwara_user");
+    if (!userDataStr) continue;
+
+    const userData = JSON.parse(userDataStr);
+    const logKey = `practice_log_${checkDate}`;
+    const sessionKey = `meditation_sessions_${checkDate}`;
+
+    const savedLog = localStorage.getItem(logKey);
+    const savedSessions = localStorage.getItem(sessionKey);
+
+    if (savedLog && savedSessions) {
+      try {
+        const log = JSON.parse(savedLog);
+        const sessions: MeditationSession[] = JSON.parse(savedSessions);
+        const dayScore = calculateDailyScore(log, sessions);
+
+        // Check if any activity was done
+        const hasPractice = log.priming || log.surya_namaskaraya ||
+          log.kapalabhati || log.bhastrika ||
+          log.nadi_shodhana || log.bhramari ||
+          sessions.length > 0;
+
+        if (hasPractice) {
+          const existing = userMap.get(userData.username) || {
+            username: userData.username,
+            emoji: userData.emoji,
+            totalScore: 0,
+            practiceDays: 0,
+            totalMeditationMinutes: 0,
+            pranayamaCount: 0,
+          };
+
+          existing.totalScore += dayScore;
+          existing.practiceDays += 1;
+          existing.totalMeditationMinutes += sessions.reduce((sum, s) => sum + s.minutes, 0);
+
+          const pranayamaTechniques = [
+            log.kapalabhati,
+            log.bhastrika,
+            log.nadi_shodhana,
+            log.bhramari,
+          ].filter(Boolean).length;
+          existing.pranayamaCount += pranayamaTechniques;
+
+          userMap.set(userData.username, existing);
+        }
+      } catch (e) {
+        // Failed to parse
+      }
+    }
+  }
+
+  // Convert to array and sort by total score
+  return Array.from(userMap.values()).sort((a, b) => b.totalScore - a.totalScore);
 }
 
 export default function LeaderboardPage() {
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const [dates, setDates] = useState<Date[]>([]);
+  const [period, setPeriod] = useState<Period>("today");
+  const [leaderboard, setLeaderboard] = useState<AggregatedEntry[]>([]);
 
   useEffect(() => {
-    const today = new Date();
-    setSelectedDate(today);
-    setDates(getLast7Days());
-  }, []);
+    setLeaderboard(calculateAggregatedScores(period));
+  }, [period]);
+
+  const periods: { key: Period; label: string }[] = [
+    { key: "today", label: "today" },
+    { key: "yesterday", label: "yesterday" },
+    { key: "week", label: "week" },
+    { key: "month", label: "month" },
+    { key: "year", label: "year" },
+  ];
 
   return (
     <>
@@ -136,18 +172,17 @@ export default function LeaderboardPage() {
           </div>
         </div>
 
-        {/* Date Navigation */}
+        {/* Period Navigation */}
         <div className="px-3 pb-2.5">
           <div className="flex gap-1 overflow-x-auto no-scrollbar">
-            {selectedDate && dates.map((date, index) => {
-              const isSelected = date.toDateString() === selectedDate.toDateString();
-              const label = getDateLabel(date);
+            {periods.map(({ key, label }) => {
+              const isSelected = period === key;
               return (
                 <button
-                  key={index}
+                  key={key}
                   type="button"
-                  onClick={() => setSelectedDate(date)}
-                  className={`shrink-0 rounded-lg px-2.5 py-1.5 transition-colors ${typography.bodyMedium}`}
+                  onClick={() => setPeriod(key)}
+                  className={`shrink-0 rounded-lg px-2.5 py-1.5 transition-colors ${typography.bodyMedium} uppercase`}
                   style={{
                     background: isSelected ? "rgba(139, 123, 227, 0.2)" : "rgba(255,255,255,0.04)",
                     color: isSelected ? "#8B7BE3" : "rgba(255,255,255,0.6)",
@@ -165,18 +200,14 @@ export default function LeaderboardPage() {
 
       <div className="px-3 pt-3 pb-6">
         {/* Leaderboard entries */}
-        {MOCK_LEADERBOARD.length > 0 ? (
+        {leaderboard.length > 0 ? (
           <div className="space-y-2">
-            {MOCK_LEADERBOARD.map((entry, index) => {
+            {leaderboard.map((entry, index) => {
               const rank = index + 1;
-              const meditationMinutes = entry.meditation_sessions.reduce(
-                (sum, s) => sum + s.minutes,
-                0
-              );
 
               return (
                 <GlassCard
-                  key={entry.user_id}
+                  key={entry.username}
                   delay={index * 0.02}
                   accent={rank === 1 ? "#FFD700" : rank === 2 ? "#C0C0C0" : rank === 3 ? "#CD7F32" : undefined}
                   className="p-2.5"
@@ -207,20 +238,8 @@ export default function LeaderboardPage() {
                         </span>
                       </div>
                       <div className="mt-0.5 flex items-center gap-1.5">
-                        {entry.priming && (
-                          <span className="h-1.5 w-1.5 rounded-full" style={{ background: "#8B7BE3" }} />
-                        )}
-                        {entry.surya_namaskaraya && (
-                          <span className="h-1.5 w-1.5 rounded-full" style={{ background: "#F59E0B" }} />
-                        )}
-                        {entry.pranayama_techniques.length > 0 && (
-                          <span className="h-1.5 w-1.5 rounded-full" style={{ background: "#60A5FA" }} />
-                        )}
-                        {entry.meditation_sessions.length > 0 && (
-                          <span className="h-1.5 w-1.5 rounded-full" style={{ background: "#EC4899" }} />
-                        )}
                         <span className={typography.helper}>
-                          {entry.pranayama_techniques.length}/4 pranayama · {meditationMinutes} min
+                          {entry.practiceDays} {entry.practiceDays === 1 ? "day" : "days"} · {entry.totalMeditationMinutes} min
                         </span>
                       </div>
                     </div>
@@ -229,7 +248,7 @@ export default function LeaderboardPage() {
                     <div className={`shrink-0 text-right ${typography.numberMedium}`} style={{
                       color: rank === 1 ? "#FFD700" : rank === 2 ? "#C0C0C0" : rank === 3 ? "#CD7F32" : "#8B7BE3",
                     }}>
-                      {entry.score}
+                      {entry.totalScore}
                     </div>
                   </div>
                 </GlassCard>

@@ -1,13 +1,15 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { format, subDays, parseISO } from "date-fns";
+import { format, subDays, parseISO, startOfWeek, startOfMonth, startOfYear } from "date-fns";
 import { GlassCard } from "@/components/ui/glass-card";
 import { typography } from "@/lib/design-system";
 import { calculateDailyScore } from "@/lib/scoring";
 import { getCurrentPracticeDate } from "@/lib/dates";
 import type { MeditationSession } from "@/lib/types";
 import { Flame, Trophy, Calendar, Clock } from "lucide-react";
+
+type Period = "week" | "month" | "year" | "all";
 
 interface Stats {
   totalScore: number;
@@ -18,7 +20,11 @@ interface Stats {
   averageScore: number;
 }
 
-export function StatsCards() {
+interface StatsCardsProps {
+  period: Period;
+}
+
+export function StatsCards({ period }: StatsCardsProps) {
   const [stats, setStats] = useState<Stats>({
     totalScore: 0,
     currentStreak: 0,
@@ -32,15 +38,37 @@ export function StatsCards() {
     if (typeof window === "undefined") return;
 
     const today = getCurrentPracticeDate();
+    const parsedToday = parseISO(today);
+
+    // Determine date range based on period
+    let startDate: Date;
+    let LOOKBACK_DAYS: number;
+
+    switch (period) {
+      case "week":
+        startDate = startOfWeek(parsedToday, { weekStartsOn: 1 });
+        LOOKBACK_DAYS = Math.ceil((parsedToday.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+        break;
+      case "month":
+        startDate = startOfMonth(parsedToday);
+        LOOKBACK_DAYS = Math.ceil((parsedToday.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+        break;
+      case "year":
+        startDate = startOfYear(parsedToday);
+        LOOKBACK_DAYS = Math.ceil((parsedToday.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+        break;
+      case "all":
+      default:
+        LOOKBACK_DAYS = 365;
+        break;
+    }
+
     let totalScore = 0;
     let totalMeditationMinutes = 0;
     let totalPracticeDays = 0;
     let currentStreak = 0;
     let longestStreak = 0;
     let currentStreakActive = true;
-
-    // Look back up to 365 days for comprehensive stats
-    const LOOKBACK_DAYS = 365;
 
     for (let i = 0; i < LOOKBACK_DAYS; i++) {
       const date = format(subDays(parseISO(today), i), "yyyy-MM-dd");
@@ -129,7 +157,7 @@ export function StatsCards() {
       totalMeditationMinutes,
       averageScore,
     });
-  }, []);
+  }, [period]);
 
   const statCards = [
     {
