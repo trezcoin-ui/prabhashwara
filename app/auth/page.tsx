@@ -61,7 +61,7 @@ export default function AuthPage() {
       <div className="w-full max-w-sm">
         {/* Logo */}
         <div className="text-center mb-8">
-          <h1 className={`${typography.h1} mb-2 uppercase`}>prabhashwara</h1>
+          <h1 className="font-[family-name:var(--font-display)] text-[32px] font-semibold leading-tight text-white/90 mb-2 uppercase">prabhashwara</h1>
           <p className="text-[10px] uppercase tracking-wider" style={{ color: "#8B7BE3" }}>
             yoga practice tracker
           </p>
