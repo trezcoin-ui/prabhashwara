@@ -40,11 +40,16 @@ export function AppHeader({
             >
               <TrendingUp size={20} strokeWidth={2} />
             </Link>
-            <img
-              src="/yoga-logo.svg"
-              alt="Prabhashwara Yoga Tracker"
-              className="h-10 w-10"
-            />
+            <div className="flex items-center gap-2">
+              <img
+                src="/yoga-logo.svg"
+                alt="Prabhashwara Yoga Tracker"
+                className="h-10 w-10"
+              />
+              <p className={typography.label} style={{ color: "#8B7BE3" }}>
+                yoga tracker
+              </p>
+            </div>
           </div>
 
           {/* Right: User info + Progress icon */}

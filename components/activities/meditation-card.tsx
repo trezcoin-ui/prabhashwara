@@ -86,8 +86,8 @@ export function MeditationCard({
       <div className="mt-2 grid grid-cols-2 gap-1 rounded-xl bg-white/[0.04] p-1">
         {(
           [
-            { id: "anapanasati", label: "ANAPANASATI" },
-            { id: "metta", label: "METTA" },
+            { id: "anapanasati", label: "අනාපානසති" },
+            { id: "metta", label: "මෛත්‍රී භාවනාව" },
           ] as const
         ).map((m) => (
           <button

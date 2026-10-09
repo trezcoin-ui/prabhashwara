@@ -4,7 +4,7 @@ import { typography } from "@/lib/design-system";
 import { useState } from "react";
 import { motion } from "motion/react";
 import { GlassCard } from "@/components/ui/glass-card";
-import { Check, RotateCcw } from "lucide-react";
+import { Check, RotateCcw, CheckCircle } from "lucide-react";
 import { SCORES } from "@/lib/constants";
 
 const ACCENT = "#8B7BE3";
@@ -91,10 +91,15 @@ export function PrimingCard({ initialCompleted, onToggle, editable }: PrimingCar
             whileTap={{ scale: 0.96 }}
             onClick={handleToggle}
             disabled={!editable || loading}
-            className={`shrink-0 rounded-xl border px-3 py-1.5 transition active:scale-95 disabled:opacity-35 ${typography.button}`}
-            style={{ borderColor: `${ACCENT}66`, color: ACCENT }}
+            className={`shrink-0 rounded-xl px-3 py-1.5 transition active:scale-95 disabled:opacity-35 ${typography.button} flex items-center gap-1.5`}
+            style={{ background: "#10B981", color: "#0B0F17" }}
           >
-            {loading ? "..." : "MARK AS DONE"}
+            {loading ? "..." : (
+              <>
+                <CheckCircle size={14} strokeWidth={2.5} />
+                <span>Mark as done</span>
+              </>
+            )}
           </motion.button>
         )}
       </div>
