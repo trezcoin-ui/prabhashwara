@@ -23,10 +23,10 @@ interface PranayamaCardProps {
 }
 
 const techniques: { key: PranayamaTechnique; label: string }[] = [
-  { key: "kapalabhati", label: "kapalabhati" },
-  { key: "bhastrika", label: "bhastrika" },
-  { key: "nadi_shodhana", label: "nadi shodhana" },
-  { key: "bhramari", label: "bhramari" },
+  { key: "kapalabhati", label: "KAPALABHATI" },
+  { key: "bhastrika", label: "BHASTRIKA" },
+  { key: "nadi_shodhana", label: "NADI SHODHANA" },
+  { key: "bhramari", label: "BHRAMARI" },
 ];
 
 export function PranayamaCard({

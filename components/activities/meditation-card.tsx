@@ -71,9 +71,11 @@ export function MeditationCard({
           >
             Meditation · +{SCORES.MEDITATION_PER_MINUTE}/min (max 60)
           </p>
-          <h2 className={`mt-1 ${typography.h3} uppercase`}>
-            {totalMinutes > 0 ? `${totalMinutes} minutes today` : "sit in stillness"}
-          </h2>
+          {totalMinutes > 0 && (
+            <h2 className={`mt-1 ${typography.h3} uppercase`}>
+              {totalMinutes} minutes today
+            </h2>
+          )}
         </div>
         <div className={`shrink-0 text-right ${typography.numberMedium}`} style={{ color: totalPoints > 0 ? ACCENT : "rgba(255,255,255,0.25)" }}>
           +{totalPoints}
@@ -84,8 +86,8 @@ export function MeditationCard({
       <div className="mt-2 grid grid-cols-2 gap-1 rounded-xl bg-white/[0.04] p-1">
         {(
           [
-            { id: "anapanasati", label: "anapanasati" },
-            { id: "metta", label: "metta" },
+            { id: "anapanasati", label: "ANAPANASATI" },
+            { id: "metta", label: "METTA" },
           ] as const
         ).map((m) => (
           <button
@@ -165,8 +167,8 @@ export function MeditationCard({
                 >
                   <Heart size={14} className="shrink-0" style={{ color: ACCENT }} />
                   <span className="min-w-0 flex-1">
-                    <span className={`block truncate ${typography.bodyMedium}`}>
-                      {session.type === "anapanasati" ? "anapanasati" : "metta"}
+                    <span className={`block truncate ${typography.bodyMedium} uppercase`}>
+                      {session.type}
                     </span>
                     <span className={`tnum block ${typography.helper}`}>
                       {session.minutes} min
