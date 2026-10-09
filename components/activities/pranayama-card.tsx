@@ -7,6 +7,7 @@ import { Wind } from "lucide-react";
 import { getPranayamaProgress } from "@/lib/scoring";
 import { SCORES } from "@/lib/constants";
 import type { PranayamaTechnique } from "@/lib/types";
+import { typography } from "@/lib/design-system";
 
 const ACCENT = "#60A5FA";
 
@@ -66,16 +67,16 @@ export function PranayamaCard({
       <header className="flex items-start justify-between gap-3">
         <div>
           <p
-            className="text-[10px] font-semibold uppercase tracking-[0.18em]"
+            className={typography.labelAccent}
             style={{ color: ACCENT }}
           >
             Pranayama · +{SCORES.PRANAYAMA_EACH} each
           </p>
-          <h2 className="mt-1 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-tight text-white/90">
+          <h2 className={`mt-1 ${typography.h3}`}>
             {progress}
           </h2>
         </div>
-        <div className="tnum shrink-0 text-right font-[family-name:var(--font-display)] text-2xl font-bold" style={{ color: totalPoints > 0 ? ACCENT : "rgba(255,255,255,0.25)" }}>
+        <div className={`shrink-0 text-right ${typography.numberMedium}`} style={{ color: totalPoints > 0 ? ACCENT : "rgba(255,255,255,0.25)" }}>
           +{totalPoints}
         </div>
       </header>
@@ -91,7 +92,7 @@ export function PranayamaCard({
               onClick={() => handleToggle(technique.key)}
               disabled={!editable || loading === technique.key}
               aria-pressed={on}
-              className="flex items-center gap-2 rounded-xl border px-2.5 py-2.5 text-left text-[12.5px] font-semibold transition-colors disabled:opacity-35"
+              className={`flex items-center gap-2 rounded-xl border px-2.5 py-2.5 text-left transition-colors disabled:opacity-35 ${typography.bodyMedium}`}
               style={{
                 borderColor: on ? ACCENT : "rgba(255,255,255,0.12)",
                 background: on ? `${ACCENT}1a` : "rgba(255,255,255,0.03)",
@@ -110,7 +111,7 @@ export function PranayamaCard({
         })}
       </div>
 
-      <p className="mt-2.5 text-[10.5px] leading-snug text-white/45">
+      <p className={`mt-2.5 ${typography.helper}`}>
         Each technique earns {SCORES.PRANAYAMA_EACH} points. Practice them all for {SCORES.PRANAYAMA_EACH * 4} points total.
       </p>
     </GlassCard>

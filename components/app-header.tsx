@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { ChevronLeft, ChevronRight, TrendingUp, BarChart3 } from "lucide-react";
+import { typography } from "@/lib/design-system";
 
 interface AppHeaderProps {
   userName: string;
@@ -41,10 +42,10 @@ export function AppHeader({
               <TrendingUp size={20} strokeWidth={2} />
             </Link>
             <div>
-              <h1 className="text-white text-base font-medium leading-tight">
+              <h1 className="text-white text-[16px] font-medium leading-tight">
                 Prabhashwara
               </h1>
-              <p className="text-[10px] uppercase tracking-wider" style={{ color: "#8B7BE3" }}>
+              <p className={typography.label} style={{ color: "#8B7BE3" }}>
                 Yoga Tracker
               </p>
             </div>
@@ -55,11 +56,11 @@ export function AppHeader({
             <div className="text-right">
               <div className="flex items-center gap-1.5 justify-end mb-0.5">
                 <span className="text-lg">{userEmoji}</span>
-                <span className="text-sm font-medium text-white/90">{userName}</span>
+                <span className={`${typography.bodyMedium} text-white/90`}>{userName}</span>
               </div>
-              <p className="text-[10px] text-white/40">Member since: {memberSince}</p>
+              <p className={typography.helper}>Member since: {memberSince}</p>
             </div>
-            <div className="tnum font-[family-name:var(--font-display)] text-[32px] font-bold leading-none" style={{ color: "#8B7BE3" }}>
+            <div className={typography.numberLarge} style={{ color: "#8B7BE3" }}>
               {score}
             </div>
             <Link
@@ -85,7 +86,7 @@ export function AppHeader({
           <div className="flex-1 grid grid-cols-3 gap-1.5 bg-white/[0.03] rounded-xl p-1">
             <button
               onClick={onToday}
-              className="px-3 py-1.5 rounded-lg text-[13px] font-semibold transition-colors"
+              className={`px-3 py-1.5 rounded-lg ${typography.button} transition-colors`}
               style={{
                 background: currentDate === "Today" ? "#8B7BE3" : "transparent",
                 color: currentDate === "Today" ? "#0B0F17" : "rgba(255,255,255,0.6)",
@@ -94,7 +95,7 @@ export function AppHeader({
               Today
             </button>
             <button
-              className="px-3 py-1.5 rounded-lg text-[13px] font-semibold transition-colors"
+              className={`px-3 py-1.5 rounded-lg ${typography.button} transition-colors`}
               style={{
                 background: currentDate === "Yesterday" ? "#8B7BE3" : "transparent",
                 color: currentDate === "Yesterday" ? "#0B0F17" : "rgba(255,255,255,0.6)",
@@ -103,7 +104,7 @@ export function AppHeader({
               Yesterday
             </button>
             <button
-              className="px-3 py-1.5 rounded-lg text-[13px] font-semibold text-white/40"
+              className={`px-3 py-1.5 rounded-lg ${typography.button} text-white/40`}
               disabled
             >
               2 days ago

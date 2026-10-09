@@ -5,6 +5,7 @@ import { motion } from "motion/react";
 import { GlassCard } from "@/components/ui/glass-card";
 import { Check, RotateCcw } from "lucide-react";
 import { SCORES } from "@/lib/constants";
+import { typography } from "@/lib/design-system";
 
 const ACCENT = "#F59E0B";
 
@@ -44,13 +45,13 @@ export function SuryaCard({ initialCompleted, onToggle, editable }: SuryaCardPro
       <header className="flex items-start justify-between gap-3">
         <div>
           <p
-            className="text-[10px] font-semibold uppercase tracking-[0.18em]"
+            className={typography.labelAccent}
             style={{ color: ACCENT }}
           >
             Surya Namaskaraya · +{SCORES.SURYA_NAMASKARAYA}
           </p>
           {completed && (
-            <h2 className="mt-1 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-tight text-white/90">
+            <h2 className={`mt-1 ${typography.h3}`}>
               Sun salutation complete
             </h2>
           )}
@@ -64,14 +65,14 @@ export function SuryaCard({ initialCompleted, onToggle, editable }: SuryaCardPro
             Done
           </span>
         ) : (
-          <span className="tnum shrink-0 font-[family-name:var(--font-display)] text-2xl font-bold text-white/25">
+          <span className={`shrink-0 text-white/25 ${typography.numberMedium}`}>
             +{SCORES.SURYA_NAMASKARAYA}
           </span>
         )}
       </header>
 
       <div className="mt-2.5 flex items-center justify-between gap-2">
-        <p className="text-[10.5px] leading-snug text-white/45">
+        <p className={typography.helper}>
           {completed ? `${SCORES.SURYA_NAMASKARAYA} points earned for this day.` : "Greet the sun with your practice."}
         </p>
         {completed ? (
@@ -79,7 +80,7 @@ export function SuryaCard({ initialCompleted, onToggle, editable }: SuryaCardPro
             type="button"
             onClick={handleToggle}
             disabled={!editable || loading}
-            className="flex shrink-0 items-center gap-1 rounded-xl px-2.5 py-1.5 text-[11px] font-semibold text-white/45 transition hover:text-white/65 active:scale-95 disabled:opacity-35"
+            className={`flex shrink-0 items-center gap-1 rounded-xl px-2.5 py-1.5 text-white/45 transition hover:text-white/65 active:scale-95 disabled:opacity-35 ${typography.button}`}
           >
             <RotateCcw size={11} />
             Undo
@@ -90,7 +91,7 @@ export function SuryaCard({ initialCompleted, onToggle, editable }: SuryaCardPro
             whileTap={{ scale: 0.96 }}
             onClick={handleToggle}
             disabled={!editable || loading}
-            className="shrink-0 rounded-xl border px-3 py-1.5 text-[11px] font-semibold transition active:scale-95 disabled:opacity-35"
+            className={`shrink-0 rounded-xl border px-3 py-1.5 transition active:scale-95 disabled:opacity-35 ${typography.button}`}
             style={{ borderColor: `${ACCENT}66`, color: ACCENT }}
           >
             {loading ? "..." : "Mark as done"}

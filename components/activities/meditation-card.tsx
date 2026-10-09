@@ -6,6 +6,7 @@ import { GlassCard } from "@/components/ui/glass-card";
 import { Heart, X, Plus } from "lucide-react";
 import { MEDITATION_DURATION, SCORES } from "@/lib/constants";
 import type { MeditationType, MeditationSession } from "@/lib/types";
+import { typography } from "@/lib/design-system";
 
 const ACCENT = "#EC4899";
 
@@ -65,16 +66,16 @@ export function MeditationCard({
       <header className="flex items-start justify-between gap-3">
         <div>
           <p
-            className="text-[10px] font-semibold uppercase tracking-[0.18em]"
+            className={typography.labelAccent}
             style={{ color: ACCENT }}
           >
             Meditation · +{SCORES.MEDITATION_PER_MINUTE}/min (max 60)
           </p>
-          <h2 className="mt-1 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-tight text-white/90">
+          <h2 className={`mt-1 ${typography.h3}`}>
             {totalMinutes > 0 ? `${totalMinutes} minutes today` : "Sit in stillness"}
           </h2>
         </div>
-        <div className="tnum shrink-0 text-right font-[family-name:var(--font-display)] text-2xl font-bold" style={{ color: totalPoints > 0 ? ACCENT : "rgba(255,255,255,0.25)" }}>
+        <div className={`shrink-0 text-right ${typography.numberMedium}`} style={{ color: totalPoints > 0 ? ACCENT : "rgba(255,255,255,0.25)" }}>
           +{totalPoints}
         </div>
       </header>
@@ -92,7 +93,7 @@ export function MeditationCard({
             type="button"
             onClick={() => setType(m.id)}
             aria-pressed={type === m.id}
-            className="rounded-lg py-2 text-[11.5px] font-semibold transition-colors"
+            className={`rounded-lg py-2 transition-colors ${typography.button}`}
             style={{
               background: type === m.id ? ACCENT : "transparent",
               color: type === m.id ? "#0B0F17" : "rgba(255,255,255,0.6)",
@@ -108,7 +109,7 @@ export function MeditationCard({
         <div className="flex items-center justify-between mb-2">
           <span className="text-[11px] text-white/45">Duration</span>
           <div className="flex items-center gap-2">
-            <div className="tnum text-right font-[family-name:var(--font-display)] text-2xl font-bold" style={{ color: ACCENT }}>
+            <div className={`text-right ${typography.numberMedium}`} style={{ color: ACCENT }}>
               {duration}
               <span className="text-xs font-medium text-white/40 ml-0.5">min</span>
             </div>
@@ -164,10 +165,10 @@ export function MeditationCard({
                 >
                   <Heart size={14} className="shrink-0" style={{ color: ACCENT }} />
                   <span className="min-w-0 flex-1">
-                    <span className="block truncate text-[12.5px] text-white/90 capitalize">
+                    <span className={`block truncate capitalize ${typography.bodyMedium}`}>
                       {session.type === "anapanasati" ? "Anapanasati" : "Metta"}
                     </span>
-                    <span className="tnum block text-[10px] text-white/40">
+                    <span className={`tnum block ${typography.helper}`}>
                       {session.minutes} min
                     </span>
                   </span>
@@ -189,7 +190,7 @@ export function MeditationCard({
         )}
       </AnimatePresence>
 
-      <p className="mt-2.5 text-[10.5px] leading-snug text-white/45">
+      <p className={`mt-2.5 ${typography.helper}`}>
         {totalMinutes >= 60
           ? "Maximum 60 points per day from meditation."
           : "Each minute earns a point, up to 60 points per day."}
