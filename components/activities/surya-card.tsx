@@ -58,7 +58,7 @@ export function SuryaCard({ initialCompleted, onToggle, editable }: SuryaCardPro
         </div>
         {completed ? (
           <span
-            className="flex shrink-0 items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-bold"
+            className={`flex shrink-0 items-center gap-1 rounded-full px-2.5 py-1 ${typography.bodySmall} font-bold`}
             style={{ background: `${ACCENT}22`, color: ACCENT }}
           >
             <Check size={12} strokeWidth={3} />

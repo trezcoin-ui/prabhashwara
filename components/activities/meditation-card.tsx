@@ -157,7 +157,7 @@ export function MeditationCard({
             className="overflow-hidden"
           >
             <div className="mt-2 space-y-1.5">
-              <h4 className="text-[11px] font-medium text-white/45">Today's sessions</h4>
+              <h4 className={`${typography.helper} font-medium`}>Today's sessions</h4>
               {sessions.map((session) => (
                 <div
                   key={session.id}

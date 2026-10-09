@@ -41,7 +41,7 @@ export function AppHeader({
               <TrendingUp size={18} strokeWidth={2} />
             </Link>
             <div>
-              <h1 className="text-white text-[14px] font-medium leading-tight">
+              <h1 className={`text-white ${typography.h3}`}>
                 Prabhashwara
               </h1>
               <p className={typography.label} style={{ color: "#8B7BE3" }}>
@@ -54,7 +54,7 @@ export function AppHeader({
           <div className="flex items-start gap-2">
             <div className="text-right">
               <div className="flex items-center gap-1.5 justify-end mb-0.5">
-                <span className="text-base">{userEmoji}</span>
+                <span className={typography.h3}>{userEmoji}</span>
                 <span className={`${typography.bodyMedium} text-white/90`}>{userName}</span>
               </div>
               <p className={typography.helper}>Member since: {memberSince}</p>
