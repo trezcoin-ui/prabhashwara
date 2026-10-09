@@ -63,7 +63,7 @@ export function PranayamaCard({
   const totalPoints = completedCount * SCORES.PRANAYAMA_EACH;
 
   return (
-    <GlassCard accent={ACCENT} delay={0.1} className="p-3.5">
+    <GlassCard accent={ACCENT} delay={0.1} className="p-2.5">
       <header className="flex items-start justify-between gap-3">
         <div>
           <p
@@ -81,7 +81,7 @@ export function PranayamaCard({
         </div>
       </header>
 
-      <div className="mt-2.5 grid grid-cols-2 gap-2">
+      <div className="mt-2 grid grid-cols-2 gap-2">
         {techniques.map((technique) => {
           const on = state[technique.key];
           return (
@@ -111,7 +111,7 @@ export function PranayamaCard({
         })}
       </div>
 
-      <p className={`mt-2.5 ${typography.helper}`}>
+      <p className={`mt-2 ${typography.helper}`}>
         Each technique earns {SCORES.PRANAYAMA_EACH} points. Practice them all for {SCORES.PRANAYAMA_EACH * 4} points total.
       </p>
     </GlassCard>

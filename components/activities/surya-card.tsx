@@ -41,7 +41,7 @@ export function SuryaCard({ initialCompleted, onToggle, editable }: SuryaCardPro
   };
 
   return (
-    <GlassCard accent={ACCENT} delay={0.05} className="p-3.5">
+    <GlassCard accent={ACCENT} delay={0.05} className="p-2.5">
       <header className="flex items-start justify-between gap-3">
         <div>
           <p
@@ -71,7 +71,7 @@ export function SuryaCard({ initialCompleted, onToggle, editable }: SuryaCardPro
         )}
       </header>
 
-      <div className="mt-2.5 flex items-center justify-between gap-2">
+      <div className="mt-2 flex items-center justify-between gap-2">
         <p className={typography.helper}>
           {completed ? `${SCORES.SURYA_NAMASKARAYA} points earned for this day.` : "Greet the sun with your practice."}
         </p>

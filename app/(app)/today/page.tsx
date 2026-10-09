@@ -148,9 +148,9 @@ export default function TodayPage() {
         currentDate="Today"
       />
 
-      <div className="px-4 pt-4 pb-6">
+      <div className="px-3 pt-3 pb-4">
         {/* Activity cards - matching Let's Get Fit spacing */}
-        <div className="space-y-3">
+        <div className="space-y-2">
           <PrimingCard
             initialCompleted={log.priming}
             onToggle={handlePrimingToggle}

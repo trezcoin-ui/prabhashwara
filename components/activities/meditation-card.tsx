@@ -62,7 +62,7 @@ export function MeditationCard({
   const totalPoints = Math.min(totalMinutes * SCORES.MEDITATION_PER_MINUTE, 60);
 
   return (
-    <GlassCard accent={ACCENT} delay={0.15} className="p-3.5">
+    <GlassCard accent={ACCENT} delay={0.15} className="p-2.5">
       <header className="flex items-start justify-between gap-3">
         <div>
           <p
@@ -81,7 +81,7 @@ export function MeditationCard({
       </header>
 
       {/* Type selector */}
-      <div className="mt-2.5 grid grid-cols-2 gap-1 rounded-xl bg-white/[0.04] p-1">
+      <div className="mt-2 grid grid-cols-2 gap-1 rounded-xl bg-white/[0.04] p-1">
         {(
           [
             { id: "anapanasati", label: "Anapanasati" },
@@ -107,11 +107,11 @@ export function MeditationCard({
       {/* Duration slider with add button */}
       <div className="mt-3">
         <div className="flex items-center justify-between mb-2">
-          <span className="text-[11px] text-white/45">Duration</span>
+          <span className={typography.helper}>Duration</span>
           <div className="flex items-center gap-2">
             <div className={`text-right ${typography.numberMedium}`} style={{ color: ACCENT }}>
               {duration}
-              <span className="text-xs font-medium text-white/40 ml-0.5">min</span>
+              <span className={`${typography.helper} ml-1`}>min</span>
             </div>
             <button
               type="button"
@@ -136,7 +136,7 @@ export function MeditationCard({
           style={{ ["--track-accent" as string]: ACCENT }}
           className="w-full"
         />
-        <div className="tnum mt-1 flex justify-between text-[10px] text-white/40">
+        <div className={`tnum mt-1 flex justify-between ${typography.label} lowercase`} style={{ color: "rgba(255,255,255,0.35)" }}>
           <span>{MEDITATION_DURATION.MIN}</span>
           <span>{MEDITATION_DURATION.MARKS[0]}</span>
           <span>{MEDITATION_DURATION.MARKS[1]}</span>
@@ -156,7 +156,7 @@ export function MeditationCard({
             transition={{ type: "spring", stiffness: 380, damping: 34 }}
             className="overflow-hidden"
           >
-            <div className="mt-2.5 space-y-1.5">
+            <div className="mt-2 space-y-1.5">
               <h4 className="text-[11px] font-medium text-white/45">Today's sessions</h4>
               {sessions.map((session) => (
                 <div
@@ -190,7 +190,7 @@ export function MeditationCard({
         )}
       </AnimatePresence>
 
-      <p className={`mt-2.5 ${typography.helper}`}>
+      <p className={`mt-2 ${typography.helper}`}>
         {totalMinutes >= 60
           ? "Maximum 60 points per day from meditation."
           : "Each minute earns a point, up to 60 points per day."}

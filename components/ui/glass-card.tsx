@@ -22,7 +22,7 @@ export function GlassCard({
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay, type: "spring", stiffness: 380, damping: 34 }}
       className={cn(
-        "rounded-2xl border bg-white/[0.03] backdrop-blur-sm",
+        "rounded-xl border bg-white/[0.03] backdrop-blur-sm",
         className
       )}
       style={{

@@ -29,20 +29,19 @@ export function AppHeader({
 }: AppHeaderProps) {
   return (
     <header className="sticky top-0 z-40 bg-[#0B0F17] border-b border-white/8">
-      <div className="px-4 pt-4 pb-3">
-        {/* Top row: Logo and User Info */}
-        <div className="flex items-start justify-between mb-4">
+      <div className="px-3 py-2.5">
+        <div className="flex items-start justify-between">
           {/* Left: Leaderboard icon + Logo */}
-          <div className="flex items-start gap-3">
+          <div className="flex items-start gap-2">
             <Link
               href="/leaderboard"
-              className="grid h-9 w-9 place-items-center rounded-lg text-white/60 hover:bg-white/5 transition-colors mt-0.5"
+              className="grid h-8 w-8 place-items-center rounded-lg text-white/60 hover:bg-white/5 transition-colors"
               aria-label="Leaderboard"
             >
-              <TrendingUp size={20} strokeWidth={2} />
+              <TrendingUp size={18} strokeWidth={2} />
             </Link>
             <div>
-              <h1 className="text-white text-[16px] font-medium leading-tight">
+              <h1 className="text-white text-[14px] font-medium leading-tight">
                 Prabhashwara
               </h1>
               <p className={typography.label} style={{ color: "#8B7BE3" }}>
@@ -52,73 +51,25 @@ export function AppHeader({
           </div>
 
           {/* Right: User info + Progress icon */}
-          <div className="flex items-start gap-3">
+          <div className="flex items-start gap-2">
             <div className="text-right">
               <div className="flex items-center gap-1.5 justify-end mb-0.5">
-                <span className="text-lg">{userEmoji}</span>
+                <span className="text-base">{userEmoji}</span>
                 <span className={`${typography.bodyMedium} text-white/90`}>{userName}</span>
               </div>
               <p className={typography.helper}>Member since: {memberSince}</p>
             </div>
-            <div className={typography.numberLarge} style={{ color: "#8B7BE3" }}>
+            <div className={typography.numberMedium} style={{ color: "#8B7BE3" }}>
               {score}
             </div>
             <Link
               href="/progress"
-              className="grid h-9 w-9 place-items-center rounded-lg text-white/60 hover:bg-white/5 transition-colors mt-0.5"
+              className="grid h-8 w-8 place-items-center rounded-lg text-white/60 hover:bg-white/5 transition-colors"
               aria-label="Progress"
             >
-              <BarChart3 size={20} strokeWidth={2} />
+              <BarChart3 size={18} strokeWidth={2} />
             </Link>
           </div>
-        </div>
-
-        {/* Date Navigation */}
-        <div className="flex items-center gap-2">
-          <button
-            onClick={onPreviousDay}
-            className="grid h-8 w-8 place-items-center rounded-lg text-white/60 hover:bg-white/5 transition-colors"
-            aria-label="Previous day"
-          >
-            <ChevronLeft size={18} strokeWidth={2} />
-          </button>
-
-          <div className="flex-1 grid grid-cols-3 gap-1.5 bg-white/[0.03] rounded-xl p-1">
-            <button
-              onClick={onToday}
-              className={`px-3 py-1.5 rounded-lg ${typography.button} transition-colors`}
-              style={{
-                background: currentDate === "Today" ? "#8B7BE3" : "transparent",
-                color: currentDate === "Today" ? "#0B0F17" : "rgba(255,255,255,0.6)",
-              }}
-            >
-              Today
-            </button>
-            <button
-              className={`px-3 py-1.5 rounded-lg ${typography.button} transition-colors`}
-              style={{
-                background: currentDate === "Yesterday" ? "#8B7BE3" : "transparent",
-                color: currentDate === "Yesterday" ? "#0B0F17" : "rgba(255,255,255,0.6)",
-              }}
-            >
-              Yesterday
-            </button>
-            <button
-              className={`px-3 py-1.5 rounded-lg ${typography.button} text-white/40`}
-              disabled
-            >
-              2 days ago
-            </button>
-          </div>
-
-          <button
-            onClick={onNextDay}
-            disabled={!canGoNext}
-            className="grid h-8 w-8 place-items-center rounded-lg text-white/60 hover:bg-white/5 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
-            aria-label="Next day"
-          >
-            <ChevronRight size={18} strokeWidth={2} />
-          </button>
         </div>
       </div>
     </header>
