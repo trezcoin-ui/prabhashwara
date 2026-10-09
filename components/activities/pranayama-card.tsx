@@ -4,7 +4,6 @@ import { useState } from "react";
 import { motion } from "motion/react";
 import { GlassCard } from "@/components/ui/glass-card";
 import { Wind } from "lucide-react";
-import { getPranayamaProgress } from "@/lib/scoring";
 import { SCORES } from "@/lib/constants";
 import type { PranayamaTechnique } from "@/lib/types";
 import { typography } from "@/lib/design-system";
@@ -58,7 +57,6 @@ export function PranayamaCard({
     }
   };
 
-  const progress = getPranayamaProgress(state);
   const completedCount = techniques.filter((t) => state[t.key]).length;
   const totalPoints = completedCount * SCORES.PRANAYAMA_EACH;
 
@@ -72,9 +70,6 @@ export function PranayamaCard({
           >
             Pranayama · +{SCORES.PRANAYAMA_EACH} each
           </p>
-          <h2 className={`mt-1 ${typography.h3} uppercase`}>
-            {progress}
-          </h2>
         </div>
         <div className={`shrink-0 text-right ${typography.numberMedium}`} style={{ color: totalPoints > 0 ? ACCENT : "rgba(255,255,255,0.25)" }}>
           +{totalPoints}
