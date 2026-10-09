@@ -94,7 +94,7 @@ export function SuryaCard({ initialCompleted, onToggle, editable }: SuryaCardPro
             className={`shrink-0 rounded-xl border px-3 py-1.5 transition active:scale-95 disabled:opacity-35 ${typography.button}`}
             style={{ borderColor: `${ACCENT}66`, color: ACCENT }}
           >
-            {loading ? "..." : "mark as done"}
+            {loading ? "..." : "MARK AS DONE"}
           </motion.button>
         )}
       </div>
