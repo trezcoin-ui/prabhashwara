@@ -158,7 +158,7 @@ export default function ProfilePage() {
         {/* Emoji Editor */}
         <GlassCard delay={0.05} className="p-2.5">
           <div className="flex items-center justify-between mb-2">
-            <p className={`${typography.bodyMedium} font-semibold`}>emoji</p>
+            <p className={`${typography.bodyMedium} font-semibold`}>Emoji</p>
             {!isEditingEmoji ? (
               <button
                 type="button"
@@ -213,7 +213,7 @@ export default function ProfilePage() {
         {/* Username Editor */}
         <GlassCard delay={0.1} className="p-2.5">
           <div className="flex items-center justify-between mb-2">
-            <p className={`${typography.bodyMedium} font-semibold`}>username</p>
+            <p className={`${typography.bodyMedium} font-semibold`}>Username</p>
             {!isEditingUsername ? (
               <button
                 type="button"
@@ -260,7 +260,7 @@ export default function ProfilePage() {
         {/* PIN Change */}
         <GlassCard delay={0.15} className="p-2.5">
           <div className="flex items-center justify-between mb-2">
-            <p className={`${typography.bodyMedium} font-semibold`}>pin</p>
+            <p className={`${typography.bodyMedium} font-semibold`}>PIN</p>
             {!isChangingPin ? (
               <button
                 type="button"
