@@ -4,6 +4,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { GlassCard } from "@/components/ui/glass-card";
 import { typography } from "@/lib/design-system";
+import { getOrCreateUser } from "@/lib/db";
+import { useUser } from "@/lib/user-context";
 
 const EMOJIS = [
   "🪷", "🧘", "☮️", "🕉️", "🌸", "🌺", "🦋", "🌙", "⭐", "✨", "🌿", "🍃",
@@ -13,6 +15,7 @@ const EMOJIS = [
 
 export default function AuthPage() {
   const router = useRouter();
+  const { setUser } = useUser();
   const [isSignup, setIsSignup] = useState(true);
   const [username, setUsername] = useState("");
   const [pin, setPin] = useState("");
@@ -43,15 +46,17 @@ export default function AuthPage() {
     setLoading(true);
 
     try {
-      // TODO: Implement actual auth with Supabase
-      // For now, store in localStorage
-      const user = { username, emoji, userId: Date.now().toString() };
-      localStorage.setItem("prabhashwara_user", JSON.stringify(user));
-      localStorage.setItem("prabhashwara_pin", pin); // In production, this would be hashed server-side
-      
+      // Create or get user from Supabase
+      const dbUser = await getOrCreateUser(username, emoji);
+
+      // Store in context and localStorage
+      setUser(dbUser);
+      localStorage.setItem("prabhashwara_pin", pin); // Simple PIN storage
+
       router.push("/today");
-    } catch (err) {
-      setError("Authentication failed. Please try again.");
+    } catch (err: any) {
+      console.error("Auth error:", err);
+      setError(err.message || "Authentication failed. Please try again.");
     } finally {
       setLoading(false);
     }

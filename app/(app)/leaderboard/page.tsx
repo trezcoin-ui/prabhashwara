@@ -8,7 +8,8 @@ import { GlassCard } from "@/components/ui/glass-card";
 import { typography } from "@/lib/design-system";
 import { calculateDailyScore } from "@/lib/scoring";
 import { getCurrentPracticeDate } from "@/lib/dates";
-import type { MeditationSession } from "@/lib/types";
+import { getAllPracticeLogsInRange, getAllMeditationSessionsInRange } from "@/lib/db";
+import type { ClientMeditationSession, PracticeLog } from "@/lib/types";
 
 type Period = "day" | "week" | "month" | "year";
 type TimeFrame = "current" | "previous";
@@ -22,9 +23,7 @@ interface AggregatedEntry {
   pranayamaCount: number;
 }
 
-function calculateAggregatedScores(period: Period, timeFrame: TimeFrame): AggregatedEntry[] {
-  if (typeof window === "undefined") return [];
-
+async function calculateAggregatedScores(period: Period, timeFrame: TimeFrame): Promise<AggregatedEntry[]> {
   const today = getCurrentPracticeDate();
   const parsedToday = parseISO(today);
   let startDate: Date;
@@ -73,84 +72,98 @@ function calculateAggregatedScores(period: Period, timeFrame: TimeFrame): Aggreg
       break;
   }
 
-  // Get all user data
-  const userMap = new Map<string, AggregatedEntry>();
+  try {
+    // Fetch all practice logs and meditation sessions in the date range
+    const [practiceLogs, meditationSessions] = await Promise.all([
+      getAllPracticeLogsInRange(format(startDate, "yyyy-MM-dd"), format(endDate, "yyyy-MM-dd")),
+      getAllMeditationSessionsInRange(format(startDate, "yyyy-MM-dd"), format(endDate, "yyyy-MM-dd"))
+    ]);
 
-  // Iterate through all possible days in the range
-  const dayCount = Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+    // Group by user
+    const userMap = new Map<string, AggregatedEntry>();
 
-  for (let i = 0; i < dayCount; i++) {
-    const checkDate = format(subDays(endDate, dayCount - 1 - i), "yyyy-MM-dd");
+    // Process practice logs
+    for (const log of practiceLogs) {
+      const user = log.users as any;
+      if (!user) continue;
 
-    // Get all stored practice logs for this date
-    const keys = Object.keys(localStorage);
-    const logKeys = keys.filter(key => key.startsWith(`practice_log_${checkDate}`));
-    const sessionKeys = keys.filter(key => key.startsWith(`meditation_sessions_${checkDate}`));
+      const userKey = user.id;
 
-    // For this simple localStorage implementation, we only have one user
-    const userDataStr = localStorage.getItem("prabhashwara_user");
-    if (!userDataStr) continue;
+      // Get meditation sessions for this user and date
+      const sessionsForLog = meditationSessions
+        .filter(s => s.user_id === user.id && s.practice_date === log.practice_date)
+        .map(s => ({
+          id: s.id,
+          type: s.type as any,
+          minutes: s.minutes
+        }));
 
-    const userData = JSON.parse(userDataStr);
-    const logKey = `practice_log_${checkDate}`;
-    const sessionKey = `meditation_sessions_${checkDate}`;
+      // Calculate score for this day
+      const practiceLog: PracticeLog = {
+        priming: log.priming,
+        surya_namaskaraya: log.surya_namaskaraya,
+        kapalabhati: log.kapalabhati,
+        bhastrika: log.bhastrika,
+        nadi_shodhana: log.nadi_shodhana,
+        bhramari: log.bhramari,
+      };
 
-    const savedLog = localStorage.getItem(logKey);
-    const savedSessions = localStorage.getItem(sessionKey);
+      const dayScore = calculateDailyScore(practiceLog, sessionsForLog);
 
-    if (savedLog && savedSessions) {
-      try {
-        const log = JSON.parse(savedLog);
-        const sessions: MeditationSession[] = JSON.parse(savedSessions);
-        const dayScore = calculateDailyScore(log, sessions);
+      // Check if any activity was done
+      const hasPractice = log.priming || log.surya_namaskaraya ||
+        log.kapalabhati || log.bhastrika ||
+        log.nadi_shodhana || log.bhramari ||
+        sessionsForLog.length > 0;
 
-        // Check if any activity was done
-        const hasPractice = log.priming || log.surya_namaskaraya ||
-          log.kapalabhati || log.bhastrika ||
-          log.nadi_shodhana || log.bhramari ||
-          sessions.length > 0;
+      if (hasPractice) {
+        const existing = userMap.get(userKey) || {
+          username: user.username,
+          emoji: user.emoji,
+          totalScore: 0,
+          practiceDays: 0,
+          totalMeditationMinutes: 0,
+          pranayamaCount: 0,
+        };
 
-        if (hasPractice) {
-          const existing = userMap.get(userData.username) || {
-            username: userData.username,
-            emoji: userData.emoji,
-            totalScore: 0,
-            practiceDays: 0,
-            totalMeditationMinutes: 0,
-            pranayamaCount: 0,
-          };
+        existing.totalScore += dayScore;
+        existing.practiceDays += 1;
+        existing.totalMeditationMinutes += sessionsForLog.reduce((sum, s) => sum + s.minutes, 0);
 
-          existing.totalScore += dayScore;
-          existing.practiceDays += 1;
-          existing.totalMeditationMinutes += sessions.reduce((sum, s) => sum + s.minutes, 0);
+        const pranayamaTechniques = [
+          log.kapalabhati,
+          log.bhastrika,
+          log.nadi_shodhana,
+          log.bhramari,
+        ].filter(Boolean).length;
+        existing.pranayamaCount += pranayamaTechniques;
 
-          const pranayamaTechniques = [
-            log.kapalabhati,
-            log.bhastrika,
-            log.nadi_shodhana,
-            log.bhramari,
-          ].filter(Boolean).length;
-          existing.pranayamaCount += pranayamaTechniques;
-
-          userMap.set(userData.username, existing);
-        }
-      } catch (e) {
-        // Failed to parse
+        userMap.set(userKey, existing);
       }
     }
-  }
 
-  // Convert to array and sort by total score
-  return Array.from(userMap.values()).sort((a, b) => b.totalScore - a.totalScore);
+    // Convert to array and sort by total score
+    return Array.from(userMap.values()).sort((a, b) => b.totalScore - a.totalScore);
+  } catch (error) {
+    console.error('Error fetching leaderboard data:', error);
+    return [];
+  }
 }
 
 export default function LeaderboardPage() {
   const [period, setPeriod] = useState<Period>("day");
   const [timeFrame, setTimeFrame] = useState<TimeFrame>("current");
   const [leaderboard, setLeaderboard] = useState<AggregatedEntry[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setLeaderboard(calculateAggregatedScores(period, timeFrame));
+    async function loadData() {
+      setLoading(true);
+      const data = await calculateAggregatedScores(period, timeFrame);
+      setLeaderboard(data);
+      setLoading(false);
+    }
+    loadData();
   }, [period, timeFrame]);
 
   const periods: { key: Period; label: string }[] = [
@@ -252,8 +265,13 @@ export default function LeaderboardPage() {
       </header>
 
       <div className="px-3 pt-3 pb-6">
-        {/* Leaderboard entries */}
-        {leaderboard.length > 0 ? (
+        {loading ? (
+          <GlassCard delay={0} className="p-6">
+            <div className="text-center">
+              <p className={typography.helper}>Loading...</p>
+            </div>
+          </GlassCard>
+        ) : leaderboard.length > 0 ? (
           <div className="space-y-2">
             {leaderboard.map((entry, index) => {
               const rank = index + 1;

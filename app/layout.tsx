@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { PWARegister } from "@/components/pwa-register";
+import { UserProvider } from "@/lib/user-context";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -60,10 +61,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <PWARegister />
-        {children}
-        <Analytics />
-        <SpeedInsights />
+        <UserProvider>
+          <PWARegister />
+          {children}
+          <Analytics />
+          <SpeedInsights />
+        </UserProvider>
       </body>
     </html>
   );

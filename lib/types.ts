@@ -27,6 +27,16 @@ export interface DailyLog {
   updated_at: string;
 }
 
+// Practice log without DB-specific fields (for local use)
+export interface PracticeLog {
+  priming: boolean;
+  surya_namaskaraya: boolean;
+  kapalabhati: boolean;
+  bhastrika: boolean;
+  nadi_shodhana: boolean;
+  bhramari: boolean;
+}
+
 export interface MeditationSession {
   id: string;
   user_id: string;
@@ -34,6 +44,13 @@ export interface MeditationSession {
   type: MeditationType;
   minutes: number;
   created_at: string;
+}
+
+// Meditation session without DB-specific fields (for client use)
+export interface ClientMeditationSession {
+  id: string;
+  type: MeditationType;
+  minutes: number;
 }
 
 export interface LeaderboardEntry {
