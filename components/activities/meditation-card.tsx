@@ -8,7 +8,7 @@ import { MEDITATION_DURATION, SCORES } from "@/lib/constants";
 import type { MeditationType, ClientMeditationSession } from "@/lib/types";
 import { typography } from "@/lib/design-system";
 
-const ACCENT = "#EC4899";
+const ACCENT = "#22C55E";
 
 interface MeditationCardProps {
   initialSessions: ClientMeditationSession[];
@@ -25,7 +25,7 @@ export function MeditationCard({
 }: MeditationCardProps) {
   const [sessions, setSessions] = useState(initialSessions);
   const [type, setType] = useState<MeditationType>("anapanasati");
-  const [duration, setDuration] = useState<number>(MEDITATION_DURATION.DEFAULT);
+  const duration = MEDITATION_DURATION.DEFAULT;
   const [removingId, setRemovingId] = useState<string | null>(null);
 
   // Sync local state with parent's sessions prop
@@ -68,7 +68,7 @@ export function MeditationCard({
 
   return (
     <GlassCard accent={ACCENT} delay={0.15} className="p-2.5">
-      <header className="flex items-start justify-between gap-3">
+      <header className="flex items-baseline justify-between gap-3">
         <div>
           <p
             className={typography.labelAccent}
@@ -111,9 +111,9 @@ export function MeditationCard({
         ))}
       </div>
 
-      {/* Duration slider with add button */}
+      {/* Duration with add button */}
       <div className="mt-3">
-        <div className="flex items-center justify-between mb-2">
+        <div className="flex items-center justify-between">
           <span className={typography.helper}>duration</span>
           <div className="flex items-center gap-2">
             <div className={`text-right ${typography.numberMedium}`} style={{ color: ACCENT }}>
@@ -131,25 +131,6 @@ export function MeditationCard({
               <Plus size={16} strokeWidth={2.5} />
             </button>
           </div>
-        </div>
-        <input
-          type="range"
-          min={MEDITATION_DURATION.MIN}
-          max={MEDITATION_DURATION.MAX}
-          step={MEDITATION_DURATION.STEP}
-          value={duration}
-          onChange={(e) => setDuration(Number(e.target.value))}
-          aria-label="Meditation duration"
-          style={{ ["--track-accent" as string]: ACCENT }}
-          className="w-full"
-        />
-        <div className={`tnum mt-1 flex justify-between ${typography.label} lowercase`} style={{ color: "rgba(255,255,255,0.35)" }}>
-          <span>{MEDITATION_DURATION.MIN}</span>
-          <span>{MEDITATION_DURATION.MARKS[0]}</span>
-          <span>{MEDITATION_DURATION.MARKS[1]}</span>
-          <span>{MEDITATION_DURATION.MARKS[2]}</span>
-          <span>{MEDITATION_DURATION.MARKS[3]}</span>
-          <span>{MEDITATION_DURATION.MAX}</span>
         </div>
       </div>
 

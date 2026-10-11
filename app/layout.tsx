@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
+import { Geist, Noto_Sans_Sinhala } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { PWARegister } from "@/components/pwa-register";
@@ -12,16 +12,9 @@ const geistSans = Geist({
   display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const instrumentSerif = Instrument_Serif({
-  variable: "--font-instrument-serif",
-  weight: ["400"],
-  subsets: ["latin"],
+const notoSinhala = Noto_Sans_Sinhala({
+  variable: "--font-sinhala",
+  subsets: ["sinhala"],
   display: "swap",
 });
 
@@ -58,7 +51,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${notoSinhala.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <UserProvider>

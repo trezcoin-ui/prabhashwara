@@ -42,7 +42,7 @@ export function SuryaCard({ initialCompleted, onToggle, editable }: SuryaCardPro
 
   return (
     <GlassCard accent={ACCENT} delay={0.05} className="p-2.5">
-      <header className="flex items-start justify-between gap-3">
+      <header className="flex items-baseline justify-between gap-3">
         <div>
           <p
             className={typography.labelAccent}
@@ -58,7 +58,7 @@ export function SuryaCard({ initialCompleted, onToggle, editable }: SuryaCardPro
         </div>
         {completed ? (
           <span
-            className={`flex shrink-0 items-center gap-1 rounded-full px-2.5 py-1 ${typography.bodySmall} font-bold`}
+            className={`flex shrink-0 items-center gap-1 rounded-full px-2.5 py-0.5 ${typography.buttonSmall}`}
             style={{ background: `${ACCENT}22`, color: ACCENT }}
           >
             <Check size={12} strokeWidth={3} />

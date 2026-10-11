@@ -70,8 +70,8 @@ export default function AuthPage() {
       <div className="w-full max-w-sm">
         {/* Logo */}
         <div className="text-center mb-8">
-          <h1 className="font-[family-name:var(--font-display)] text-[32px] font-semibold leading-tight text-white/90 mb-2 uppercase tracking-[0.12em]">prabhashwara</h1>
-          <p className="text-[10px] uppercase tracking-wider" style={{ color: "#8B7BE3" }}>
+          <h1 className={`${typography.h1} mb-1 uppercase tracking-[0.08em]`}>prabhashwara</h1>
+          <p className={typography.labelAccent} style={{ color: "#8B7BE3" }}>
             yoga practice tracker
           </p>
         </div>
@@ -122,7 +122,7 @@ export default function AuthPage() {
                 }}
                 placeholder="Nimal"
                 maxLength={20}
-                className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/12 text-white/90 placeholder:text-white/30 focus:outline-none focus:border-[#8B7BE3] transition-colors text-[14px]"
+                className={`w-full px-4 py-3 rounded-xl bg-white/5 border border-white/12 text-white/90 placeholder:text-white/30 focus:outline-none focus:border-[#8B7BE3] transition-colors ${typography.input}`}
               />
             </div>
 
@@ -138,7 +138,7 @@ export default function AuthPage() {
                 onChange={(e) => setPin(e.target.value.replace(/\D/g, "").slice(0, 6))}
                 placeholder="••••••"
                 maxLength={6}
-                className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/12 text-white/90 placeholder:text-white/30 focus:outline-none focus:border-[#8B7BE3] transition-colors text-[14px] tracking-widest"
+                className={`w-full px-4 py-3 rounded-xl bg-white/5 border border-white/12 text-white/90 placeholder:text-white/30 focus:outline-none focus:border-[#8B7BE3] transition-colors ${typography.input} tnum tracking-widest`}
               />
             </div>
 
@@ -155,14 +155,14 @@ export default function AuthPage() {
                   onChange={(e) => setConfirmPin(e.target.value.replace(/\D/g, "").slice(0, 6))}
                   placeholder="••••••"
                   maxLength={6}
-                  className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/12 text-white/90 placeholder:text-white/30 focus:outline-none focus:border-[#8B7BE3] transition-colors text-[14px] tracking-widest"
+                  className={`w-full px-4 py-3 rounded-xl bg-white/5 border border-white/12 text-white/90 placeholder:text-white/30 focus:outline-none focus:border-[#8B7BE3] transition-colors ${typography.input} tnum tracking-widest`}
                 />
               </div>
             )}
 
             {/* Error Message */}
             {error && (
-              <p className="text-[12px] text-red-400 text-center">{error}</p>
+              <p className={`${typography.bodySmall} text-red-400 text-center`}>{error}</p>
             )}
 
             {/* Submit Button */}

@@ -127,7 +127,7 @@ export default function ProfilePage() {
                 <Home size={18} strokeWidth={2} />
               </Link>
               <div>
-                <h1 className={`${typography.h3} uppercase`}>
+                <h1 className={`${typography.h2} uppercase`}>
                   profile
                 </h1>
                 <p className={typography.label} style={{ color: "#8B7BE3" }}>
@@ -164,7 +164,7 @@ export default function ProfilePage() {
         {/* Emoji Editor */}
         <GlassCard delay={0.05} className="p-2.5">
           <div className="flex items-center justify-between mb-2">
-            <p className={`${typography.bodyMedium} font-semibold`}>Emoji</p>
+            <p className={typography.h3}>Emoji</p>
             {!isEditingEmoji ? (
               <button
                 type="button"
@@ -219,7 +219,7 @@ export default function ProfilePage() {
         {/* Username Editor */}
         <GlassCard delay={0.1} className="p-2.5">
           <div className="flex items-center justify-between mb-2">
-            <p className={`${typography.bodyMedium} font-semibold`}>Username</p>
+            <p className={typography.h3}>Username</p>
             {!isEditingUsername ? (
               <button
                 type="button"
@@ -262,7 +262,7 @@ export default function ProfilePage() {
               }}
               placeholder="Nimal"
               maxLength={20}
-              className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/12 text-white/90 placeholder:text-white/30 focus:outline-none focus:border-[#8B7BE3] transition-colors text-[13px]"
+              className={`w-full px-3 py-2 rounded-lg bg-white/5 border border-white/12 text-white/90 placeholder:text-white/30 focus:outline-none focus:border-[#8B7BE3] transition-colors ${typography.input}`}
             />
           )}
         </GlassCard>
@@ -270,7 +270,7 @@ export default function ProfilePage() {
         {/* PIN Change */}
         <GlassCard delay={0.15} className="p-2.5">
           <div className="flex items-center justify-between mb-2">
-            <p className={`${typography.bodyMedium} font-semibold`}>PIN</p>
+            <p className={typography.h3}>PIN</p>
             {!isChangingPin ? (
               <button
                 type="button"
@@ -317,7 +317,7 @@ export default function ProfilePage() {
                 onChange={(e) => setCurrentPin(e.target.value.replace(/\D/g, "").slice(0, 6))}
                 placeholder="current pin"
                 maxLength={6}
-                className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/12 text-white/90 placeholder:text-white/30 focus:outline-none focus:border-[#8B7BE3] transition-colors text-[13px] tracking-widest"
+                className={`w-full px-3 py-2 rounded-lg bg-white/5 border border-white/12 text-white/90 placeholder:text-white/30 focus:outline-none focus:border-[#8B7BE3] transition-colors ${typography.input} tnum tracking-widest`}
               />
               <input
                 type="password"
@@ -326,7 +326,7 @@ export default function ProfilePage() {
                 onChange={(e) => setNewPin(e.target.value.replace(/\D/g, "").slice(0, 6))}
                 placeholder="new pin"
                 maxLength={6}
-                className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/12 text-white/90 placeholder:text-white/30 focus:outline-none focus:border-[#8B7BE3] transition-colors text-[13px] tracking-widest"
+                className={`w-full px-3 py-2 rounded-lg bg-white/5 border border-white/12 text-white/90 placeholder:text-white/30 focus:outline-none focus:border-[#8B7BE3] transition-colors ${typography.input} tnum tracking-widest`}
               />
               <input
                 type="password"
@@ -335,10 +335,10 @@ export default function ProfilePage() {
                 onChange={(e) => setConfirmPin(e.target.value.replace(/\D/g, "").slice(0, 6))}
                 placeholder="confirm new pin"
                 maxLength={6}
-                className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/12 text-white/90 placeholder:text-white/30 focus:outline-none focus:border-[#8B7BE3] transition-colors text-[13px] tracking-widest"
+                className={`w-full px-3 py-2 rounded-lg bg-white/5 border border-white/12 text-white/90 placeholder:text-white/30 focus:outline-none focus:border-[#8B7BE3] transition-colors ${typography.input} tnum tracking-widest`}
               />
               {error && (
-                <p className="text-[11px] text-red-400">{error}</p>
+                <p className={`${typography.bodySmall} text-red-400`}>{error}</p>
               )}
             </div>
           )}

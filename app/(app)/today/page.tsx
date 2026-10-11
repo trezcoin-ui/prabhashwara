@@ -10,6 +10,7 @@ import { MeditationCard } from "@/components/activities/meditation-card";
 import { formatPracticeDate, getCurrentPracticeDate } from "@/lib/dates";
 import { calculateDailyScore } from "@/lib/scoring";
 import { useUser } from "@/lib/user-context";
+import { typography } from "@/lib/design-system";
 import {
   getPracticeLog,
   getMeditationSessions,
@@ -163,7 +164,7 @@ export default function TodayPage() {
   if (!isLoaded || !practiceDate || !user) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <div className="text-white/45">Loading...</div>
+        <p className={typography.helper}>Loading...</p>
       </div>
     );
   }

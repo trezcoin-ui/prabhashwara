@@ -73,7 +73,7 @@ export function PracticeHeatmap() {
   return (
     <GlassCard delay={0.1} className="p-2.5">
       <div className="mb-2">
-        <p className={`${typography.bodyMedium} font-semibold uppercase`}>Practice Heatmap</p>
+        <p className={`${typography.h3} uppercase`}>Practice Heatmap</p>
         <p className={typography.helper}>last 8 weeks of activity</p>
       </div>
 
@@ -83,7 +83,7 @@ export function PracticeHeatmap() {
           {["M", "T", "W", "T", "F", "S", "S"].map((day, i) => (
             <div
               key={i}
-              className={`${typography.helper} text-center text-white/40`}
+              className={`${typography.label} text-center`}
             >
               {day}
             </div>
@@ -120,10 +120,10 @@ export function PracticeHeatmap() {
             className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1.5 rounded-lg bg-[#8B7BE3] text-[#0B0F17] whitespace-nowrap z-10"
             style={{ pointerEvents: "none" }}
           >
-            <p className={`${typography.bodyMedium} font-semibold`}>
+            <p className={typography.bodySmall} style={{ color: "#0B0F17" }}>
               {hoveredDay.displayDate}
             </p>
-            <p className={typography.helper} style={{ color: "#0B0F17", opacity: 0.7 }}>
+            <p className={`tnum ${typography.helper}`} style={{ color: "#0B0F17", opacity: 0.7 }}>
               {hoveredDay.score} points
             </p>
           </div>

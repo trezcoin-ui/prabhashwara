@@ -30,9 +30,9 @@ export function AppHeader({
   return (
     <header className="sticky top-0 z-40 bg-[#0B0F17] border-b border-white/8">
       <div className="px-3 py-2.5">
-        <div className="flex items-start justify-between">
+        <div className="flex items-center justify-between">
           {/* Left: Leaderboard icon + Logo */}
-          <div className="flex items-start gap-2">
+          <div className="flex items-center gap-2">
             <Link
               href="/leaderboard"
               className="grid h-10 w-10 place-items-center rounded-lg text-white/60 hover:bg-white/5 transition-colors"
@@ -46,23 +46,25 @@ export function AppHeader({
                 alt="Prabhashwara Yoga Tracker"
                 className="h-12 w-12"
               />
-              <p className={`${typography.bodyMedium} font-semibold uppercase`} style={{ color: "#8B7BE3" }}>
+              <p className={`${typography.h3} uppercase tracking-[0.04em]`} style={{ color: "#8B7BE3" }}>
                 yoga tracker
               </p>
             </div>
           </div>
 
-          {/* Right: User info + Progress icon */}
-          <div className="flex items-start gap-2">
-            <Link href="/profile" className="text-right hover:opacity-80 transition-opacity">
-              <div className="flex items-center gap-1.5 justify-end">
-                <span className={typography.h3}>{userEmoji}</span>
-                <span className={`${typography.bodyMedium} text-white/90`}>{userName}</span>
-              </div>
+          {/* Right: User info + Progress icon — name and score share a baseline */}
+          <div className="flex items-center gap-1 self-center">
+            <Link
+              href="/profile"
+              className="flex items-baseline gap-1.5 rounded-lg px-1.5 py-1 hover:bg-white/5 transition-colors"
+            >
+              <span className="self-center text-[18px] leading-none">{userEmoji}</span>
+              <span className={`${typography.bodyMedium} max-w-[96px] truncate text-white/90`}>{userName}</span>
+              <span className={typography.numberMedium} style={{ color: "#8B7BE3" }}>
+                {score}
+                <span className={`ml-1 ${typography.helper}`}>pts</span>
+              </span>
             </Link>
-            <div className={typography.numberMedium} style={{ color: "#8B7BE3" }}>
-              {score}
-            </div>
             <Link
               href="/progress"
               className="grid h-8 w-8 place-items-center rounded-lg text-white/60 hover:bg-white/5 transition-colors"

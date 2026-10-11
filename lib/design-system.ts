@@ -1,38 +1,44 @@
 /**
- * Design System — Professional Typography System
- * Consistent fonts, sizes, and weights throughout the app
+ * Design System — Typography
+ *
+ * One family (Geist) for text and numbers; Sinhala falls back to Noto Sans Sinhala.
+ * Scale: 11 · 12 · 14 · 15 · 17 · 22 · 28 px. Weights: 400 / 500 / 600 only.
+ * All numbers use tabular lining figures so columns and scores line up.
  */
 
 export const typography = {
-  // Labels and tags (10px, always uppercase, semibold)
-  label: "text-[10px] font-semibold uppercase tracking-[0.18em] text-white/60",
-  labelAccent: "text-[10px] font-semibold uppercase tracking-[0.18em]", // Color applied inline
+  // Eyebrow labels (11px, uppercase, tracked)
+  label: "text-[11px] font-semibold uppercase leading-4 tracking-[0.08em] text-white/55",
+  labelAccent: "text-[11px] font-semibold uppercase leading-4 tracking-[0.08em]", // Color applied inline
 
-  // Headings (Display font - Instrument Serif)
-  h1: "font-[family-name:var(--font-display)] text-[28px] font-semibold leading-tight text-white/90",
-  h2: "font-[family-name:var(--font-display)] text-[20px] font-semibold leading-tight text-white/90",
-  h3: "font-[family-name:var(--font-display)] text-[15px] font-semibold leading-tight text-white/90",
+  // Headings
+  h1: "text-[28px] font-semibold leading-8 tracking-[-0.02em] text-white/95",
+  h2: "text-[17px] font-semibold leading-6 tracking-[-0.01em] text-white/95",
+  h3: "text-[15px] font-semibold leading-5 tracking-[-0.005em] text-white/90",
 
-  // Body text (Geist Sans)
-  body: "text-[13px] font-normal leading-relaxed text-white/80",
-  bodyMedium: "text-[12.5px] font-medium leading-relaxed text-white/80",
-  bodySmall: "text-[11px] font-normal leading-normal text-white/65",
+  // Body text
+  body: "text-[14px] font-normal leading-5 text-white/80",
+  bodyMedium: "text-[14px] font-medium leading-5 text-white/85",
+  bodySmall: "text-[12px] font-medium leading-4 text-white/65",
 
   // Helper text
-  helper: "text-[10.5px] leading-snug text-white/45",
-  helperStrong: "text-[10.5px] font-medium leading-snug text-white/45",
+  helper: "text-[12px] font-normal leading-4 text-white/45",
+  helperStrong: "text-[12px] font-medium leading-4 text-white/45",
 
-  // Numbers (Display font with tabular nums)
-  numberLarge: "tnum font-[family-name:var(--font-display)] text-[20px] font-bold leading-none",
-  numberMedium: "tnum font-[family-name:var(--font-display)] text-[13px] font-bold leading-none",
-  numberSmall: "tnum font-[family-name:var(--font-display)] text-[12px] font-bold leading-none",
+  // Numbers (same family, tabular lining figures)
+  numberLarge: "tnum text-[22px] font-semibold leading-7 tracking-[-0.01em]",
+  numberMedium: "tnum text-[15px] font-semibold leading-5",
+  numberSmall: "tnum text-[12px] font-semibold leading-4",
 
   // Buttons
-  button: "text-[12px] font-semibold",
-  buttonSmall: "text-[11px] font-semibold",
+  button: "text-[14px] font-semibold leading-5",
+  buttonSmall: "text-[12px] font-semibold leading-4",
 
   // Links
-  link: "text-[13px] font-medium underline-offset-2 hover:underline",
+  link: "text-[14px] font-medium underline-offset-2 hover:underline",
+
+  // Form inputs
+  input: "text-[16px] font-normal leading-6",
 };
 
 export const colors = {

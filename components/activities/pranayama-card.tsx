@@ -62,7 +62,7 @@ export function PranayamaCard({
 
   return (
     <GlassCard accent={ACCENT} delay={0.1} className="p-2.5">
-      <header className="flex items-start justify-between gap-3">
+      <header className="flex items-baseline justify-between gap-3">
         <div>
           <p
             className={typography.labelAccent}

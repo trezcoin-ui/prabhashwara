@@ -194,7 +194,7 @@ export function StatsCards({ period }: StatsCardsProps) {
     <div className="grid grid-cols-2 gap-2">
       {statCards.map((stat) => (
         <GlassCard key={stat.label} delay={stat.delay} className="p-2.5">
-          <div className="flex items-start gap-2">
+          <div className="flex items-center gap-2.5">
             <div
               className="grid h-8 w-8 shrink-0 place-items-center rounded-lg"
               style={{ background: `${stat.color}26` }}
@@ -202,10 +202,10 @@ export function StatsCards({ period }: StatsCardsProps) {
               <stat.icon size={16} strokeWidth={2.5} style={{ color: stat.color }} />
             </div>
             <div className="flex-1 min-w-0">
-              <p className={`${typography.numberMedium} truncate`} style={{ color: stat.color }}>
+              <p className={`${typography.numberLarge} truncate`} style={{ color: stat.color }}>
                 {stat.value}
               </p>
-              <p className={`${typography.helper} text-white/50 uppercase`}>
+              <p className={`mt-0.5 ${typography.label}`}>
                 {stat.label}
               </p>
             </div>

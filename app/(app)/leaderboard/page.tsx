@@ -194,7 +194,7 @@ export default function LeaderboardPage() {
                 <Home size={18} strokeWidth={2} />
               </Link>
               <div>
-                <h1 className={`${typography.h3} uppercase`}>
+                <h1 className={`${typography.h2} uppercase`}>
                   leaderboard
                 </h1>
                 <p className={typography.label} style={{ color: "#8B7BE3" }}>
@@ -300,26 +300,23 @@ export default function LeaderboardPage() {
                       )}
                     </div>
 
-                    {/* User info */}
+                    {/* User info — score shares the username's baseline */}
                     <div className="min-w-0 flex-1">
-                      <div className="flex items-center gap-1.5">
-                        <span className="text-[18px]">{entry.emoji}</span>
-                        <span className={`${typography.bodyMedium} truncate`}>
+                      <div className="flex items-baseline gap-2">
+                        <span className="self-center text-[18px] leading-none">{entry.emoji}</span>
+                        <span className={`${typography.bodyMedium} min-w-0 flex-1 truncate`}>
                           {entry.username}
                         </span>
-                      </div>
-                      <div className="mt-0.5 flex items-center gap-1.5">
-                        <span className={typography.helper}>
-                          {entry.practiceDays} {entry.practiceDays === 1 ? "day" : "days"} · {entry.totalMeditationMinutes} min
+                        <span className={`shrink-0 ${typography.numberMedium}`} style={{
+                          color: rank === 1 ? "#FFD700" : rank === 2 ? "#C0C0C0" : rank === 3 ? "#CD7F32" : "#8B7BE3",
+                        }}>
+                          {entry.totalScore}
+                          <span className={`ml-1 ${typography.helper}`}>pts</span>
                         </span>
                       </div>
-                    </div>
-
-                    {/* Score */}
-                    <div className={`shrink-0 text-right ${typography.numberMedium}`} style={{
-                      color: rank === 1 ? "#FFD700" : rank === 2 ? "#C0C0C0" : rank === 3 ? "#CD7F32" : "#8B7BE3",
-                    }}>
-                      {entry.totalScore}
+                      <p className={`tnum mt-0.5 ${typography.helper}`}>
+                        {entry.practiceDays} {entry.practiceDays === 1 ? "day" : "days"} · {entry.totalMeditationMinutes} min
+                      </p>
                     </div>
                   </div>
                 </GlassCard>
