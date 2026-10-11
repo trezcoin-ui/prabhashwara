@@ -21,9 +21,20 @@ export function UserProvider({ children }: { children: ReactNode }) {
     if (stored) {
       try {
         const userData = JSON.parse(stored);
-        setUserState(userData);
+
+        // Validate user data has proper DB format (with UUID id and created_at)
+        if (userData.id && userData.created_at && userData.id.includes('-')) {
+          // Valid DB user
+          setUserState(userData);
+        } else {
+          // Old format user - clear it and force re-auth
+          console.log('Clearing old user data - migration required');
+          localStorage.removeItem('prabhashwara_user');
+          localStorage.removeItem('prabhashwara_pin');
+        }
       } catch (e) {
         console.error('Failed to parse user data:', e);
+        localStorage.removeItem('prabhashwara_user');
       }
     }
     setIsLoading(false);
