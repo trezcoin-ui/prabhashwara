@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ChevronLeft, ChevronRight, TrendingUp, BarChart3 } from "lucide-react";
+import { ChevronLeft, ChevronRight, Trophy, User } from "lucide-react";
 import { typography } from "@/lib/design-system";
 
 interface AppHeaderProps {
@@ -38,7 +38,7 @@ export function AppHeader({
               className="grid h-10 w-10 place-items-center rounded-lg text-white/60 hover:bg-white/5 transition-colors"
               aria-label="Leaderboard"
             >
-              <TrendingUp size={20} strokeWidth={2} />
+              <Trophy size={20} strokeWidth={2} />
             </Link>
             <div className="flex items-center gap-2">
               <img
@@ -70,7 +70,7 @@ export function AppHeader({
               className="grid h-8 w-8 place-items-center rounded-lg text-white/60 hover:bg-white/5 transition-colors"
               aria-label="Progress"
             >
-              <BarChart3 size={18} strokeWidth={2} />
+              <User size={18} strokeWidth={2} />
             </Link>
           </div>
         </div>

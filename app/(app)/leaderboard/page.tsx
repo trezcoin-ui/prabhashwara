@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Home, BarChart3, Trophy, Medal, Award } from "lucide-react";
+import { Home, User, Trophy, Medal, Award } from "lucide-react";
 import { format, subDays, startOfWeek, startOfMonth, startOfYear, parseISO } from "date-fns";
 import { GlassCard } from "@/components/ui/glass-card";
 import { typography } from "@/lib/design-system";
@@ -209,7 +209,7 @@ export default function LeaderboardPage() {
               className="grid h-8 w-8 shrink-0 place-items-center rounded-lg text-white/60 hover:bg-white/5 transition-colors mt-0.5"
               aria-label="Progress"
             >
-              <BarChart3 size={18} strokeWidth={2} />
+              <User size={18} strokeWidth={2} />
             </Link>
           </div>
         </div>

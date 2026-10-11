@@ -8,7 +8,7 @@ import { MEDITATION_DURATION, SCORES } from "@/lib/constants";
 import type { MeditationType, ClientMeditationSession } from "@/lib/types";
 import { typography } from "@/lib/design-system";
 
-const ACCENT = "#22C55E";
+const ACCENT = "#2DD4BF";
 
 interface MeditationCardProps {
   initialSessions: ClientMeditationSession[];

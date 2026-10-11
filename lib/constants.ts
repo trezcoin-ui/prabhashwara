@@ -23,7 +23,7 @@ export const MEDITATION_DURATION = {
   MIN: 5,
   MAX: 90,
   STEP: 5,
-  DEFAULT: 15,
+  DEFAULT: 5,
   MARKS: [15, 30, 45, 60],
 } as const;
 

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Home, TrendingUp } from "lucide-react";
+import { Home, Trophy } from "lucide-react";
 import { typography } from "@/lib/design-system";
 import { StatsCards } from "@/components/progress/stats-cards";
 import { PracticeHeatmap } from "@/components/progress/practice-heatmap";
@@ -50,7 +50,7 @@ export default function ProgressPage() {
               className="grid h-8 w-8 shrink-0 place-items-center rounded-lg text-white/60 hover:bg-white/5 transition-colors mt-0.5"
               aria-label="Leaderboard"
             >
-              <TrendingUp size={18} strokeWidth={2} />
+              <Trophy size={18} strokeWidth={2} />
             </Link>
           </div>
         </div>
