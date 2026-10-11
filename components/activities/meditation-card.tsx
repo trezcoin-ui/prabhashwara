@@ -10,6 +10,14 @@ import { typography } from "@/lib/design-system";
 
 const ACCENT = "#2DD4BF";
 
+const MEDITATION_TYPES = [
+  { id: "anapanasati", label: "ආනාපානසති භාවනාව" },
+  { id: "metta", label: "මෛත්‍රී භාවනාව" },
+] as const;
+
+const typeLabel = (type: MeditationType) =>
+  MEDITATION_TYPES.find((m) => m.id === type)?.label ?? type;
+
 interface MeditationCardProps {
   initialSessions: ClientMeditationSession[];
   onAddSession: (type: MeditationType, minutes: number) => Promise<void>;
@@ -77,7 +85,7 @@ export function MeditationCard({
             Meditation · +{SCORES.MEDITATION_PER_MINUTE}/min (max 60)
           </p>
           {totalMinutes > 0 && (
-            <h2 className={`mt-1 ${typography.h3} uppercase`}>
+            <h2 className={`mt-1 ${typography.h3}`}>
               {totalMinutes} minutes today
             </h2>
           )}
@@ -89,12 +97,7 @@ export function MeditationCard({
 
       {/* Type selector */}
       <div className="mt-2 grid grid-cols-2 gap-1 rounded-xl bg-white/[0.04] p-1">
-        {(
-          [
-            { id: "anapanasati", label: "ආනාපානසති භාවනාව" },
-            { id: "metta", label: "මෛත්‍රී භාවනාව" },
-          ] as const
-        ).map((m) => (
+        {MEDITATION_TYPES.map((m) => (
           <button
             key={m.id}
             type="button"
@@ -114,7 +117,7 @@ export function MeditationCard({
       {/* Duration with add button */}
       <div className="mt-3">
         <div className="flex items-center justify-between">
-          <span className={typography.helper}>duration</span>
+          <span className={typography.helper}>Duration per tap</span>
           <div className="flex items-center gap-2">
             <div className={`text-right ${typography.numberMedium}`} style={{ color: ACCENT }}>
               {duration}
@@ -145,7 +148,7 @@ export function MeditationCard({
             className="overflow-hidden"
           >
             <div className="mt-2 space-y-1.5">
-              <h4 className={`${typography.helper} font-medium`}>today's sessions</h4>
+              <h4 className={typography.label}>Today's sessions</h4>
               {sessions.map((session) => (
                 <div
                   key={session.id}
@@ -153,8 +156,8 @@ export function MeditationCard({
                 >
                   <Heart size={14} className="shrink-0" style={{ color: ACCENT }} />
                   <span className="min-w-0 flex-1">
-                    <span className={`block truncate ${typography.bodyMedium} uppercase`}>
-                      {session.type}
+                    <span className={`block truncate ${typography.bodyMedium}`}>
+                      {typeLabel(session.type)}
                     </span>
                     <span className={`tnum block ${typography.helper}`}>
                       {session.minutes} min
@@ -180,8 +183,8 @@ export function MeditationCard({
 
       <p className={`mt-2 ${typography.helper}`}>
         {totalMinutes >= 60
-          ? "maximum 60 points per day from meditation."
-          : "each minute earns a point, up to 60 points per day."}
+          ? "Maximum 60 points per day from meditation."
+          : "Each minute earns a point, up to 60 points per day."}
       </p>
     </GlassCard>
   );

@@ -70,18 +70,18 @@ export default function ProfilePage() {
     // Validate current PIN
     const storedPin = localStorage.getItem("prabhashwara_pin");
     if (currentPin !== storedPin) {
-      setError("current pin is incorrect");
+      setError("Current PIN is incorrect");
       return;
     }
 
     // Validate new PIN
     if (newPin.length !== 6 || !/^\d{6}$/.test(newPin)) {
-      setError("new pin must be exactly 6 digits");
+      setError("New PIN must be exactly 6 digits");
       return;
     }
 
     if (newPin !== confirmPin) {
-      setError("new pins do not match");
+      setError("New PINs do not match");
       return;
     }
 
@@ -106,7 +106,7 @@ export default function ProfilePage() {
   if (!user) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <p className={typography.helper}>loading...</p>
+        <p className={typography.helper}>Loading…</p>
       </div>
     );
   }
@@ -127,8 +127,8 @@ export default function ProfilePage() {
                 <Home size={18} strokeWidth={2} />
               </Link>
               <div>
-                <h1 className={`${typography.h2} uppercase`}>
-                  profile
+                <h1 className={typography.h2}>
+                  Profile
                 </h1>
                 <p className={typography.label} style={{ color: "#8B7BE3" }}>
                   account settings
@@ -155,8 +155,8 @@ export default function ProfilePage() {
           <div className="flex items-center gap-3">
             <div className="text-[48px] leading-none">{user.emoji}</div>
             <div className="flex-1">
-              <p className={`${typography.h2} uppercase`}>{user.username}</p>
-              <p className={typography.helper}>your practice identity</p>
+              <p className={typography.h2}>{user.username}</p>
+              <p className={typography.helper}>Your practice identity</p>
             </div>
           </div>
         </GlassCard>
@@ -172,7 +172,7 @@ export default function ProfilePage() {
                 className="flex items-center gap-1.5 text-white/60 hover:text-white/90 transition-colors"
               >
                 <Edit2 size={14} />
-                <span className={typography.button}>edit</span>
+                <span className={typography.button}>Edit</span>
               </button>
             ) : (
               <div className="flex gap-1">
@@ -227,7 +227,7 @@ export default function ProfilePage() {
                 className="flex items-center gap-1.5 text-white/60 hover:text-white/90 transition-colors"
               >
                 <Edit2 size={14} />
-                <span className={typography.button}>edit</span>
+                <span className={typography.button}>Edit</span>
               </button>
             ) : (
               <div className="flex gap-1">
@@ -281,7 +281,7 @@ export default function ProfilePage() {
                 className="flex items-center gap-1.5 text-white/60 hover:text-white/90 transition-colors"
               >
                 <Edit2 size={14} />
-                <span className={typography.button}>change</span>
+                <span className={typography.button}>Change</span>
               </button>
             ) : (
               <div className="flex gap-1">
@@ -315,7 +315,7 @@ export default function ProfilePage() {
                 inputMode="numeric"
                 value={currentPin}
                 onChange={(e) => setCurrentPin(e.target.value.replace(/\D/g, "").slice(0, 6))}
-                placeholder="current pin"
+                placeholder="Current PIN"
                 maxLength={6}
                 className={`w-full px-3 py-2 rounded-lg bg-white/5 border border-white/12 text-white/90 placeholder:text-white/30 focus:outline-none focus:border-[#8B7BE3] transition-colors ${typography.input} tnum tracking-widest`}
               />
@@ -324,7 +324,7 @@ export default function ProfilePage() {
                 inputMode="numeric"
                 value={newPin}
                 onChange={(e) => setNewPin(e.target.value.replace(/\D/g, "").slice(0, 6))}
-                placeholder="new pin"
+                placeholder="New PIN"
                 maxLength={6}
                 className={`w-full px-3 py-2 rounded-lg bg-white/5 border border-white/12 text-white/90 placeholder:text-white/30 focus:outline-none focus:border-[#8B7BE3] transition-colors ${typography.input} tnum tracking-widest`}
               />
@@ -333,7 +333,7 @@ export default function ProfilePage() {
                 inputMode="numeric"
                 value={confirmPin}
                 onChange={(e) => setConfirmPin(e.target.value.replace(/\D/g, "").slice(0, 6))}
-                placeholder="confirm new pin"
+                placeholder="Confirm new PIN"
                 maxLength={6}
                 className={`w-full px-3 py-2 rounded-lg bg-white/5 border border-white/12 text-white/90 placeholder:text-white/30 focus:outline-none focus:border-[#8B7BE3] transition-colors ${typography.input} tnum tracking-widest`}
               />
@@ -343,7 +343,7 @@ export default function ProfilePage() {
             </div>
           )}
           {!isChangingPin && (
-            <p className={typography.helper}>6-digit security pin</p>
+            <p className={typography.helper}>6-digit security PIN</p>
           )}
         </GlassCard>
 
@@ -353,7 +353,7 @@ export default function ProfilePage() {
           onClick={handleSignOut}
           className={`w-full rounded-xl border border-red-400/30 px-3 py-2.5 text-red-400 hover:bg-red-400/10 transition-colors ${typography.button}`}
         >
-          sign out
+          Sign out
         </button>
       </div>
     </>

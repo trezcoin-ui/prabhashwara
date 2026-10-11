@@ -73,8 +73,8 @@ export function PracticeHeatmap() {
   return (
     <GlassCard delay={0.1} className="p-2.5">
       <div className="mb-2">
-        <p className={`${typography.h3} uppercase`}>Practice Heatmap</p>
-        <p className={typography.helper}>last 8 weeks of activity</p>
+        <p className={typography.h3}>Practice heatmap</p>
+        <p className={typography.helper}>Last 8 weeks of activity</p>
       </div>
 
       <div className="relative">
@@ -132,7 +132,7 @@ export function PracticeHeatmap() {
 
       {/* Legend */}
       <div className="flex items-center justify-between mt-3 pt-2 border-t border-white/8">
-        <span className={`${typography.helper} text-white/40`}>less</span>
+        <span className={`${typography.helper} text-white/40`}>Less</span>
         <div className="flex gap-1">
           {[0, 40, 80, 120, 160].map((score, i) => (
             <div
@@ -142,7 +142,7 @@ export function PracticeHeatmap() {
             />
           ))}
         </div>
-        <span className={`${typography.helper} text-white/40`}>more</span>
+        <span className={`${typography.helper} text-white/40`}>More</span>
       </div>
     </GlassCard>
   );

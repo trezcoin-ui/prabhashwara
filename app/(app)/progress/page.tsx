@@ -35,7 +35,7 @@ export default function ProgressPage() {
                 <Home size={18} strokeWidth={2} />
               </Link>
               <div>
-                <h1 className={`${typography.h2} uppercase`}>
+                <h1 className={typography.h2}>
                   Progress
                 </h1>
                 <p className={typography.label} style={{ color: "#8B7BE3" }}>

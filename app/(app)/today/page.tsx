@@ -164,7 +164,7 @@ export default function TodayPage() {
   if (!isLoaded || !practiceDate || !user) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <p className={typography.helper}>Loading...</p>
+        <p className={typography.helper}>Loading…</p>
       </div>
     );
   }

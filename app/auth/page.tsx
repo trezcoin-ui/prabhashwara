@@ -16,7 +16,7 @@ const EMOJIS = [
 export default function AuthPage() {
   const router = useRouter();
   const { setUser } = useUser();
-  const [isSignup, setIsSignup] = useState(true);
+  const [isSignup, setIsSignup] = useState(false);
   const [username, setUsername] = useState("");
   const [pin, setPin] = useState("");
   const [confirmPin, setConfirmPin] = useState("");
@@ -78,15 +78,15 @@ export default function AuthPage() {
 
         <GlassCard accent="#8B7BE3" delay={0} className="p-6">
           <form onSubmit={handleSubmit} className="space-y-4">
-            <h2 className={`${typography.h3} uppercase`}>
-              {isSignup ? "create account" : "welcome back"}
+            <h2 className={typography.h3}>
+              {isSignup ? "Create account" : "Welcome back"}
             </h2>
 
             {/* Emoji Selector (signup only) */}
             {isSignup && (
               <div>
                 <label className={`${typography.label} block mb-2`}>
-                  Choose Your Emoji
+                  Choose your emoji
                 </label>
                 <div className="grid grid-cols-6 gap-1.5 max-h-48 overflow-y-auto">
                   {EMOJIS.map((e) => (
@@ -172,7 +172,7 @@ export default function AuthPage() {
               className={`w-full py-3 rounded-xl ${typography.button} transition-all active:scale-98 disabled:opacity-50`}
               style={{ background: "#8B7BE3", color: "#0B0F17" }}
             >
-              {loading ? "please wait..." : isSignup ? "create account" : "sign in"}
+              {loading ? "Please wait…" : isSignup ? "Create account" : "Sign in"}
             </button>
 
             {/* Toggle Sign up / Sign in */}
@@ -186,13 +186,13 @@ export default function AuthPage() {
               }}
               className={`${typography.link} text-white/60 hover:text-white/90 w-full text-center block`}
             >
-              {isSignup ? "already have an account? sign in" : "need an account? sign up"}
+              {isSignup ? "Already have an account? Sign in" : "New here? Create an account"}
             </button>
           </form>
         </GlassCard>
 
         <p className={`${typography.helper} text-center mt-6`}>
-          your data is private and secure
+          Your data is private and secure
         </p>
       </div>
     </div>

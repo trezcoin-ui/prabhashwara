@@ -107,7 +107,7 @@ export function PranayamaCard({
       </div>
 
       <p className={`mt-2 ${typography.helper}`}>
-        each technique earns {SCORES.PRANAYAMA_EACH} points. practice them all for {SCORES.PRANAYAMA_EACH * 4} points total.
+        Each technique earns {SCORES.PRANAYAMA_EACH} points. Practice them all for {SCORES.PRANAYAMA_EACH * 4} points total.
       </p>
     </GlassCard>
   );

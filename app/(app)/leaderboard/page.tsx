@@ -194,8 +194,8 @@ export default function LeaderboardPage() {
                 <Home size={18} strokeWidth={2} />
               </Link>
               <div>
-                <h1 className={`${typography.h2} uppercase`}>
-                  leaderboard
+                <h1 className={typography.h2}>
+                  Leaderboard
                 </h1>
                 <p className={typography.label} style={{ color: "#8B7BE3" }}>
                   community rankings
@@ -268,7 +268,7 @@ export default function LeaderboardPage() {
         {loading ? (
           <GlassCard delay={0} className="p-6">
             <div className="text-center">
-              <p className={typography.helper}>Loading...</p>
+              <p className={typography.helper}>Loading…</p>
             </div>
           </GlassCard>
         ) : leaderboard.length > 0 ? (
@@ -326,11 +326,11 @@ export default function LeaderboardPage() {
         ) : (
           <GlassCard delay={0} className="p-6">
             <div className="text-center space-y-1.5">
-              <p className={`${typography.h3} uppercase`}>
-                no data yet
+              <p className={typography.h3}>
+                No data yet
               </p>
               <p className={typography.helper}>
-                complete your practice to appear on the leaderboard
+                Complete your practice to appear on the leaderboard
               </p>
             </div>
           </GlassCard>
