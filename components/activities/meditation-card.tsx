@@ -5,13 +5,13 @@ import { motion, AnimatePresence } from "motion/react";
 import { GlassCard } from "@/components/ui/glass-card";
 import { Heart, X, Plus } from "lucide-react";
 import { MEDITATION_DURATION, SCORES } from "@/lib/constants";
-import type { MeditationType, MeditationSession } from "@/lib/types";
+import type { MeditationType, ClientMeditationSession } from "@/lib/types";
 import { typography } from "@/lib/design-system";
 
 const ACCENT = "#EC4899";
 
 interface MeditationCardProps {
-  initialSessions: MeditationSession[];
+  initialSessions: ClientMeditationSession[];
   onAddSession: (type: MeditationType, minutes: number) => Promise<void>;
   onRemoveSession: (sessionId: string) => Promise<void>;
   editable: boolean;

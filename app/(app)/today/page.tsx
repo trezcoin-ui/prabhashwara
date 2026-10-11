@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { AppHeader } from "@/components/app-header";
 import { PrimingCard } from "@/components/activities/priming-card";
 import { SuryaCard } from "@/components/activities/surya-card";
@@ -8,14 +9,23 @@ import { PranayamaCard } from "@/components/activities/pranayama-card";
 import { MeditationCard } from "@/components/activities/meditation-card";
 import { formatPracticeDate, getCurrentPracticeDate } from "@/lib/dates";
 import { calculateDailyScore } from "@/lib/scoring";
-import type { PranayamaTechnique, MeditationType, MeditationSession } from "@/lib/types";
+import { useUser } from "@/lib/user-context";
+import {
+  getPracticeLog,
+  getMeditationSessions,
+  toggleActivity,
+  togglePranayama,
+  addMeditationSession,
+  removeMeditationSession,
+} from "@/lib/db";
+import type { PranayamaTechnique, MeditationType, ClientMeditationSession } from "@/lib/types";
 
 export default function TodayPage() {
+  const router = useRouter();
+  const { user, isLoading: userLoading } = useUser();
   const [practiceDate, setPracticeDate] = useState("");
   const [isLoaded, setIsLoaded] = useState(false);
-  const [user, setUser] = useState<{ username: string; emoji: string } | null>(null);
 
-  // Mock state (will be replaced with server data)
   const [log, setLog] = useState({
     priming: false,
     surya_namaskaraya: false,
@@ -25,108 +35,128 @@ export default function TodayPage() {
     bhramari: false,
   });
 
-  const [meditationSessions, setMeditationSessions] = useState<MeditationSession[]>([]);
-  const [streak, setStreak] = useState({ current: 0, longest: 0 });
+  const [meditationSessions, setMeditationSessions] = useState<ClientMeditationSession[]>([]);
 
-  // Set practice date and load saved data on mount
+  // Load data from Supabase on mount
   useEffect(() => {
-    const date = getCurrentPracticeDate();
-    setPracticeDate(date);
+    async function loadData() {
+      if (userLoading) return;
 
-    // Load saved data from localStorage
-    if (typeof window !== "undefined") {
-      // Check for authenticated user
-      const savedUser = localStorage.getItem("prabhashwara_user");
-      if (!savedUser) {
-        // Redirect to auth page if not logged in
-        window.location.href = "/auth";
+      if (!user) {
+        router.push("/auth");
         return;
       }
+
+      const date = getCurrentPracticeDate();
+      setPracticeDate(date);
 
       try {
-        setUser(JSON.parse(savedUser));
-      } catch (e) {
-        console.error("Failed to parse user:", e);
-        window.location.href = "/auth";
-        return;
-      }
-
-      const savedLog = localStorage.getItem(`practice_log_${date}`);
-      const savedSessions = localStorage.getItem(`meditation_sessions_${date}`);
-
-      if (savedLog) {
-        try {
-          setLog(JSON.parse(savedLog));
-        } catch (e) {
-          console.error("Failed to parse saved log:", e);
+        // Load practice log from Supabase
+        const practiceLog = await getPracticeLog(user.id, date);
+        if (practiceLog) {
+          setLog({
+            priming: practiceLog.priming,
+            surya_namaskaraya: practiceLog.surya_namaskaraya,
+            kapalabhati: practiceLog.kapalabhati,
+            bhastrika: practiceLog.bhastrika,
+            nadi_shodhana: practiceLog.nadi_shodhana,
+            bhramari: practiceLog.bhramari,
+          });
         }
+
+        // Load meditation sessions from Supabase
+        const sessions = await getMeditationSessions(user.id, date);
+        setMeditationSessions(sessions);
+      } catch (error) {
+        console.error("Error loading practice data:", error);
       }
 
-      if (savedSessions) {
-        try {
-          setMeditationSessions(JSON.parse(savedSessions));
-        } catch (e) {
-          console.error("Failed to parse saved sessions:", e);
-        }
-      }
+      setIsLoaded(true);
     }
 
-    setIsLoaded(true);
-  }, []);
-
-  // Auto-save log to localStorage whenever it changes
-  useEffect(() => {
-    if (isLoaded && practiceDate && typeof window !== "undefined") {
-      localStorage.setItem(`practice_log_${practiceDate}`, JSON.stringify(log));
-    }
-  }, [log, practiceDate, isLoaded]);
-
-  // Auto-save meditation sessions to localStorage whenever they change
-  useEffect(() => {
-    if (isLoaded && practiceDate && typeof window !== "undefined") {
-      localStorage.setItem(`meditation_sessions_${practiceDate}`, JSON.stringify(meditationSessions));
-    }
-  }, [meditationSessions, practiceDate, isLoaded]);
+    loadData();
+  }, [user, userLoading, router]);
 
   // Calculate current score
   const score = calculateDailyScore(log, meditationSessions);
 
-  // Calculate progress (percentage of activities completed)
-  const totalActivities = 4; // Priming, Surya, at least one Pranayama, at least one Meditation
-  let completedActivities = 0;
-  if (log.priming) completedActivities++;
-  if (log.surya_namaskaraya) completedActivities++;
-  if (log.kapalabhati || log.bhastrika || log.nadi_shodhana || log.bhramari) completedActivities++;
-  if (meditationSessions.length > 0) completedActivities++;
-  const progressPercentage = (completedActivities / totalActivities) * 100;
-
-  // Mock handlers (will be replaced with server actions)
+  // Handlers that save to Supabase
   const handlePrimingToggle = async (completed: boolean) => {
+    if (!user) return;
+
     setLog((prev) => ({ ...prev, priming: completed }));
+
+    try {
+      await toggleActivity(user.id, practiceDate, "priming", completed);
+    } catch (error) {
+      console.error("Error toggling priming:", error);
+      // Rollback on error
+      setLog((prev) => ({ ...prev, priming: !completed }));
+    }
   };
 
   const handleSuryaToggle = async (completed: boolean) => {
+    if (!user) return;
+
     setLog((prev) => ({ ...prev, surya_namaskaraya: completed }));
+
+    try {
+      await toggleActivity(user.id, practiceDate, "surya_namaskaraya", completed);
+    } catch (error) {
+      console.error("Error toggling surya namaskaraya:", error);
+      // Rollback on error
+      setLog((prev) => ({ ...prev, surya_namaskaraya: !completed }));
+    }
   };
 
   const handlePranayamaToggle = async (technique: PranayamaTechnique, completed: boolean) => {
+    if (!user) return;
+
     setLog((prev) => ({ ...prev, [technique]: completed }));
+
+    try {
+      await togglePranayama(user.id, practiceDate, technique, completed);
+    } catch (error) {
+      console.error(`Error toggling ${technique}:`, error);
+      // Rollback on error
+      setLog((prev) => ({ ...prev, [technique]: !completed }));
+    }
   };
 
   const handleAddMeditation = async (type: MeditationType, minutes: number) => {
-    const newSession: MeditationSession = {
-      id: Date.now().toString(),
-      user_id: "mock",
-      practice_date: practiceDate,
-      type,
-      minutes,
-      created_at: new Date().toISOString(),
-    };
-    setMeditationSessions((prev) => [...prev, newSession]);
+    if (!user) return;
+
+    try {
+      const newSession = await addMeditationSession(user.id, practiceDate, type, minutes);
+
+      // Add to local state
+      setMeditationSessions((prev) => [
+        ...prev,
+        {
+          id: newSession.id,
+          type: newSession.type,
+          minutes: newSession.minutes,
+        },
+      ]);
+    } catch (error) {
+      console.error("Error adding meditation session:", error);
+    }
   };
 
   const handleRemoveMeditation = async (sessionId: string) => {
+    if (!user) return;
+
+    // Optimistic update
     setMeditationSessions((prev) => prev.filter((s) => s.id !== sessionId));
+
+    try {
+      await removeMeditationSession(sessionId);
+    } catch (error) {
+      console.error("Error removing meditation session:", error);
+      // Reload sessions on error
+      const sessions = await getMeditationSessions(user.id, practiceDate);
+      setMeditationSessions(sessions);
+    }
   };
 
   // Don't render until data is loaded
@@ -149,7 +179,7 @@ export default function TodayPage() {
       />
 
       <div className="px-3 pt-3 pb-4">
-        {/* Activity cards - matching Let's Get Fit spacing */}
+        {/* Activity cards */}
         <div className="space-y-2">
           <PrimingCard
             initialCompleted={log.priming}
