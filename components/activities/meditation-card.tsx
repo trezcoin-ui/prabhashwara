@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { GlassCard } from "@/components/ui/glass-card";
 import { Heart, X, Plus } from "lucide-react";
@@ -27,6 +27,11 @@ export function MeditationCard({
   const [type, setType] = useState<MeditationType>("anapanasati");
   const [duration, setDuration] = useState<number>(MEDITATION_DURATION.DEFAULT);
   const [removingId, setRemovingId] = useState<string | null>(null);
+
+  // Sync local state with parent's sessions prop
+  useEffect(() => {
+    setSessions(initialSessions);
+  }, [initialSessions]);
 
   const handleAddSession = async () => {
     if (!editable) return;
